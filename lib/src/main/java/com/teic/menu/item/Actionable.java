@@ -1,4 +1,8 @@
 package com.teic.menu.item;
 
-public class Actionable {
+import java.io.IOException;
+
+@FunctionalInterface
+public interface Actionable {
+    public boolean run() throws IOException;
 }
