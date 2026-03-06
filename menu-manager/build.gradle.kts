@@ -40,12 +40,11 @@ java {
     }
 }
 
-// TODO: Fix this shit
 mavenPublishing {
-    coordinates(group.toString(), name, version.toString())
+    coordinates(group.toString(), "menu-manager", version.toString())
 
     pom {
-        name.set(name)
+        name.set("menu-manager")
         description.set("A composable main menu system, built in Java using the Lanterna UI Library")
         inceptionYear.set("2026")
         url.set("https://github.com/BFUR64/menu-manager/")
