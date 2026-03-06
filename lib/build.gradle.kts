@@ -5,8 +5,8 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/9.3.1/userguide/building_java_projects.html in the Gradle documentation.
  */
 
-group = "com.teic"
-version = "0.0.1"
+group = "io.github.bfur64"
+version = "0.1-ALPHA"
 
 plugins {
     // Apply the java-library plugin for API and implementation separation.
