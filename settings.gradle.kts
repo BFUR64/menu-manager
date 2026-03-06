@@ -10,5 +10,5 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-rootProject.name = "menu"
-include("lib")
+rootProject.name = "menu-manager"
+include("menu-manager")

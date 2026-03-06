@@ -6,7 +6,7 @@
  */
 
 group = "io.github.bfur64"
-version = "0.1-ALPHA"
+version = "0.1.0-alpha"
 
 plugins {
     // Apply the java-library plugin for API and implementation separation.
@@ -42,31 +42,31 @@ java {
 
 // TODO: Fix this shit
 mavenPublishing {
-    coordinates("com.example.mylibrary", "mylibrary-runtime", "1.0.3-SNAPSHOT")
+    coordinates(group.toString(), name, version.toString())
 
     pom {
-        name.set("My Library")
-        description.set("A description of what my library does.")
-        inceptionYear.set("2020")
-        url.set("https://github.com/username/mylibrary/")
+        name.set(name)
+        description.set("A composable main menu system, built in Java using the Lanterna UI Library")
+        inceptionYear.set("2026")
+        url.set("https://github.com/BFUR64/menu-manager/")
         licenses {
             license {
-                name.set("The Apache License, Version 2.0")
-                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                name.set("MIT License")
+                url.set("https://opensource.org/license/mit")
+                distribution.set("repo")
             }
         }
         developers {
             developer {
-                id.set("username")
-                name.set("User Name")
-                url.set("https://github.com/username/")
+                id.set("BFUR64")
+                name.set("Terrance")
+                url.set("https://github.com/BFUR64/")
             }
         }
         scm {
-            url.set("https://github.com/username/mylibrary/")
-            connection.set("scm:git:git://github.com/username/mylibrary.git")
-            developerConnection.set("scm:git:ssh://git@github.com/username/mylibrary.git")
+            url.set("https://github.com/BFUR64/menu-manager/")
+            connection.set("scm:git:https://github.com/BFUR64/menu-manager.git")
+            developerConnection.set("scm:git:ssh://git@github.com/BFUR64/menu-manager.git")
         }
     }
 }
