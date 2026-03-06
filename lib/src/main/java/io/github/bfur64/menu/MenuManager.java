@@ -1,4 +1,4 @@
-package com.teic.menu;
+package io.github.bfur64.menu;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,7 +7,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.Terminal;
-import com.teic.menu.item.Item;
+import io.github.bfur64.menu.item.Item;
 
 public class MenuManager {
     private static final int ITEM_INDENT = 4;

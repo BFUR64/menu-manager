@@ -40,6 +40,7 @@ java {
     }
 }
 
+// TODO: Fix this shit
 mavenPublishing {
     coordinates("com.example.mylibrary", "mylibrary-runtime", "1.0.3-SNAPSHOT")
 

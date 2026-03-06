@@ -1,4 +1,4 @@
-package com.teic.menu.item;
+package io.github.bfur64.menu.item;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
-import com.teic.menu.MenuContext;
+import io.github.bfur64.menu.MenuContext;
 
 public class EditableItem extends Item {
     private final Supplier<Double> get;

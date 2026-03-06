@@ -1,8 +1,8 @@
-package com.teic.menu.item;
+package io.github.bfur64.menu.item;
 
 import java.io.IOException;
 
-import com.teic.menu.MenuContext;
+import io.github.bfur64.menu.MenuContext;
 
 public abstract class Item {
     protected final String label;

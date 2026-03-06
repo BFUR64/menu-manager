@@ -1,4 +1,4 @@
-package com.teic.menu.item;
+package io.github.bfur64.menu.item;
 
 import java.io.IOException;
 
