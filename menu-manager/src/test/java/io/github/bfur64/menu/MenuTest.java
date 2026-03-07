@@ -3,12 +3,27 @@
  */
 package io.github.bfur64.menu;
 
+import io.github.bfur64.menu.item.TextItem;
 import org.junit.Test;
+
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class MenuTest {
     @Test
-    public void someLibraryMethodReturnsTrue() {
-        assertTrue(true);
+    public void testBasicMenuList() {
+        MenuManager menu = new MenuManager(List.of(new TextItem("Start"), new TextItem("Fuck")));
+        menu.run();
+
+        assertEquals(2, menu.getDrawCommands().size());
+
+        assertEquals("Start", menu.getDrawCommands().getFirst().out());
+        assertEquals(4, menu.getDrawCommands().getFirst().x());
+        assertEquals(1, menu.getDrawCommands().getFirst().y());
+
+        assertEquals("Fuck", menu.getDrawCommands().get(1).out());
+        assertEquals(4, menu.getDrawCommands().get(1).x());
+        assertEquals(2, menu.getDrawCommands().get(1).y());
     }
 }

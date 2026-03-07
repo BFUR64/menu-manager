@@ -13,6 +13,8 @@ plugins {
     `java-library`
 
     id("com.vanniktech.maven.publish") version "0.36.0"
+
+    id("application")
 }
 
 repositories {
@@ -31,6 +33,10 @@ dependencies {
     implementation(libs.guava)
 
     implementation("com.googlecode.lanterna:lanterna:3.1.3")
+
+    implementation("org.jline:jline:3.30.0")
+    implementation("org.jline:jline-terminal-jna:3.30.0")
+    implementation("org.jline:jline-reader:3.30.0")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -68,4 +74,8 @@ mavenPublishing {
             developerConnection.set("scm:git:ssh://git@github.com/BFUR64/menu-manager.git")
         }
     }
+}
+
+application {
+    mainClass = "examples.Demo"
 }
