@@ -32,10 +32,15 @@ public class MenuManager {
     }
 
     private void drawCursor(KeyHit hit) {
+        // FIXME Prob not needed. But check anyway
 //        while (!menuList.get(listIndex).selectable() && listIndex < menuList.size() - 1) {
 //            listIndex++;
 //        }
 
+        // FIXME There appears to be a bug when it comes to not hitting any keys. Related to how it's drawn?
+        // FIXME The current structure breaks when not inputting keys. > gets redrawn at the previous position
+
+        // TODO: Consider moving draw commands to the last and interpret UNKNOWN as a break in the method
         drawCommands.add(new Draw(2, prevListIndex + 1, " "));
         drawCommands.add(new Draw(2, listIndex + 1, ">"));
 

@@ -29,9 +29,12 @@ public class Demo {
             MenuManager menu = new MenuManager(items);
             TerminalRenderer renderer = new TerminalRenderer(terminal);
 
+            // TODO Replace this with: menu.init() to avoid unknown key hits. Or just update()
             menu.update(KeyHit.UNKNOWN);
             renderer.render(menu.getDrawCommands());
 
+            // TODO Add menu.isFinished() to indicate the menu wants to exit. Preferably some kind of escape character, but... Escape doesn't seem to work here?
+            // TODO Investigate if ESCAPE can be used in reading Key Bindings. Useful for escaping the program
             while (true) {
                 KeyHit hit = reader.readKeyPress();
                 menu.update(hit);
