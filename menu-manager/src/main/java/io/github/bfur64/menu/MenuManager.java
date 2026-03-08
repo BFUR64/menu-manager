@@ -1,8 +1,8 @@
 package io.github.bfur64.menu;
 
+import io.github.bfur64.menu.input.KeyHit;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.render.Draw;
-import io.github.bfur64.menu.render.Style;
 
 import java.util.ArrayList;
 import java.util.Collections;

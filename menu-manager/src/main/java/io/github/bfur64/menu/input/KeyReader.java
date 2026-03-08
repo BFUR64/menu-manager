@@ -1,4 +1,4 @@
-package io.github.bfur64.menu;
+package io.github.bfur64.menu.input;
 
 import org.jline.keymap.BindingReader;
 import org.jline.keymap.KeyMap;

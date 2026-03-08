@@ -1,7 +1,7 @@
 package examples;
 
-import io.github.bfur64.menu.KeyHit;
-import io.github.bfur64.menu.KeyReader;
+import io.github.bfur64.menu.input.KeyHit;
+import io.github.bfur64.menu.input.KeyReader;
 import io.github.bfur64.menu.MenuManager;
 import io.github.bfur64.menu.item.ActionItem;
 import io.github.bfur64.menu.render.TerminalRenderer;
