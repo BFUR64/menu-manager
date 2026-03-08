@@ -1,4 +1,4 @@
-package io.github.bfur64.menu;
+package io.github.bfur64.menu.render;
 
 import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp.Capability;

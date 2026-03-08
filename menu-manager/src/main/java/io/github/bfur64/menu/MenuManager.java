@@ -1,8 +1,7 @@
 package io.github.bfur64.menu;
 
 import io.github.bfur64.menu.item.Item;
-import org.jline.keymap.KeyMap;
-import org.jline.reader.LineReader;
+import io.github.bfur64.menu.render.Draw;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,12 +11,16 @@ public class MenuManager {
     private final List<Draw> drawCommands = new ArrayList<>();
     private final List<Item> menuList;
 
+    private int listIndex = 0;
+    private int prevListIndex = listIndex;
+
     public MenuManager(List<Item> menuList) {
         this.menuList = menuList;
     }
 
-    public void run() {
+    public void update(KeyHit hit) {
         drawMenu();
+        drawCursor(hit);
     }
 
     private void drawMenu() {
@@ -28,17 +31,39 @@ public class MenuManager {
         }
     }
 
-    private void drawCursor() {
-        int listIndex = 0;
-        int prevListIndex = listIndex;
+    private void drawCursor(KeyHit hit) {
+//        while (!menuList.get(listIndex).selectable() && listIndex < menuList.size() - 1) {
+//            listIndex++;
+//        }
 
-        while (!menuList.get(listIndex).selectable()) {
-            listIndex++;
-        }
+        drawCommands.add(new Draw(2, prevListIndex + 1, " "));
+        drawCommands.add(new Draw(2, listIndex + 1, ">"));
 
-        loop:
-        while (true) {
+        switch (hit) {
+            case UP -> {
+                prevListIndex = listIndex;
 
+                do {
+                    listIndex--;
+
+                    if (listIndex < 0) {
+                        listIndex = menuList.size() - 1;
+                    }
+                }
+                while (!menuList.get(listIndex).selectable());
+            }
+
+            case DOWN -> {
+                prevListIndex = listIndex;
+
+                do {
+                    listIndex++;
+
+                    if (listIndex > menuList.size() - 1) {
+                        listIndex = 0;
+                    }
+                } while (!menuList.get(listIndex).selectable());
+            }
         }
     }
 
