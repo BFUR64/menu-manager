@@ -25,8 +25,6 @@ public class MenuManager {
 
         drawMenu();
         drawCursor(keyHit);
-
-        draw.add(new Draw(10, 10, "Testing 123", new Style(0, 0, 0), new Style(255, 255, 255)));
     }
 
     public void update() {
