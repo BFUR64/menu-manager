@@ -3,6 +3,7 @@ package io.github.bfur64.menu;
 import io.github.bfur64.menu.input.KeyHit;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.render.Draw;
+import io.github.bfur64.menu.render.Style;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,8 @@ public class MenuManager {
 
         drawMenu();
         drawCursor(keyHit);
+
+        draw.add(new Draw(10, 10, "Testing 123", new Style(0, 0, 0), new Style(255, 255, 255)));
     }
 
     public void update() {
