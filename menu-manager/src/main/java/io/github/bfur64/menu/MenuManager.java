@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class MenuManager {
-    private final List<Draw> drawCommands = new ArrayList<>();
+    private final List<Draw> draw = new ArrayList<>();
     private final List<Item> menuList;
 
     private int listIndex = 0;
@@ -18,33 +18,27 @@ public class MenuManager {
         this.menuList = menuList;
     }
 
-    public void update(KeyHit hit) {
+    public void update(KeyHit keyHit) {
+        draw.clear();
+
         drawMenu();
-        drawCursor(hit);
+        drawCursor(keyHit);
+    }
+
+    public void update() {
+        update(KeyHit.UNKNOWN);
     }
 
     private void drawMenu() {
         for (int i = 0; i < menuList.size(); i++) {
-            Draw drawCommand = new Draw(4, i + 1, menuList.get(i).getDisplayName());
+            Draw drawCommand = new Draw(3, i, menuList.get(i).getDisplayName());
 
-            drawCommands.add(drawCommand);
+            draw.add(drawCommand);
         }
     }
 
-    private void drawCursor(KeyHit hit) {
-        // FIXME Prob not needed. But check anyway
-//        while (!menuList.get(listIndex).selectable() && listIndex < menuList.size() - 1) {
-//            listIndex++;
-//        }
-
-        // FIXME There appears to be a bug when it comes to not hitting any keys. Related to how it's drawn?
-        // FIXME The current structure breaks when not inputting keys. > gets redrawn at the previous position
-
-        // TODO: Consider moving draw commands to the last and interpret UNKNOWN as a break in the method
-        drawCommands.add(new Draw(2, prevListIndex + 1, " "));
-        drawCommands.add(new Draw(2, listIndex + 1, ">"));
-
-        switch (hit) {
+    private void drawCursor(KeyHit keyHit) {
+        switch (keyHit) {
             case UP -> {
                 prevListIndex = listIndex;
 
@@ -67,12 +61,16 @@ public class MenuManager {
                     if (listIndex > menuList.size() - 1) {
                         listIndex = 0;
                     }
-                } while (!menuList.get(listIndex).selectable());
+                }
+                while (!menuList.get(listIndex).selectable());
             }
         }
+
+        draw.add(new Draw(0, prevListIndex, " "));
+        draw.add(new Draw(0, listIndex, ">"));
     }
 
-    public List<Draw> getDrawCommands() {
-        return Collections.unmodifiableList(drawCommands);
+    public List<Draw> getDrawList() {
+        return Collections.unmodifiableList(draw);
     }
 }

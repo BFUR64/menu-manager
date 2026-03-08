@@ -16,14 +16,14 @@ public class MenuTest {
         MenuManager menu = new MenuManager(List.of(new TextItem("Start"), new TextItem("Fuck")));
         menu.update(KeyHit.UNKNOWN);
 
-        assertEquals(4, menu.getDrawCommands().size());
+        assertEquals(4, menu.getDrawList().size());
 
-        assertEquals("Start", menu.getDrawCommands().getFirst().out());
-        assertEquals(4, menu.getDrawCommands().get(0).x());
-        assertEquals(1, menu.getDrawCommands().get(0).y());
+        assertEquals("Start", menu.getDrawList().getFirst().out());
+        assertEquals(3, menu.getDrawList().get(0).x());
+        assertEquals(0, menu.getDrawList().get(0).y());
 
-        assertEquals("Fuck", menu.getDrawCommands().get(1).out());
-        assertEquals(4, menu.getDrawCommands().get(1).x());
-        assertEquals(2, menu.getDrawCommands().get(1).y());
+        assertEquals("Fuck", menu.getDrawList().get(1).out());
+        assertEquals(3, menu.getDrawList().get(1).x());
+        assertEquals(1, menu.getDrawList().get(1).y());
     }
 }
