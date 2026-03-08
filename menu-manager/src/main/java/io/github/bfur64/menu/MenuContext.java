@@ -1,11 +1,10 @@
 package io.github.bfur64.menu;
 
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.terminal.Terminal;
+import io.github.bfur64.menu.render.Draw;
+import java.util.List;
 
 public record MenuContext (
-        Terminal terminal,
-        TextGraphics textGraphics,
+        List<Draw> draw,
         int colPos,
         int rowPos
 ) {}

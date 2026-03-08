@@ -32,7 +32,6 @@ public class Demo {
             MenuManager menu = new MenuManager(items);
             TerminalRenderer renderer = new TerminalRenderer(terminal);
 
-            // TODO Replace this with: menu.init() to avoid unknown key hits. Or just update()
             menu.update();
             renderer.render(menu.getDrawList());
 
