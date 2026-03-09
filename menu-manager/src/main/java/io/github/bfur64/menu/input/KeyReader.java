@@ -15,9 +15,10 @@ public class KeyReader {
 
         keyMap.bind(KeyHit.UP, KeyMap.key(terminal, Capability.key_up));
         keyMap.bind(KeyHit.DOWN, KeyMap.key(terminal, Capability.key_down));
-        keyMap.bind(KeyHit.LEFT, KeyMap.key(terminal, Capability.key_left));
-        keyMap.bind(KeyHit.RIGHT, KeyMap.key(terminal, Capability.key_right));
+
         keyMap.bind(KeyHit.ENTER, KeyMap.key(terminal, Capability.key_enter));
+        keyMap.bind(KeyHit.ENTER, "\r");
+        keyMap.bind(KeyHit.ENTER, "\n");
 
         keyMap.setNomatch(KeyHit.UNKNOWN);
     }

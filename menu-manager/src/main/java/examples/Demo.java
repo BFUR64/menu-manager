@@ -37,7 +37,7 @@ public class Demo {
 
             // TODO Add menu.isFinished() to indicate the menu wants to exit. Preferably some kind of escape character, but... Escape doesn't seem to work here?
             // TODO Investigate if ESCAPE can be used in reading Key Bindings. Useful for escaping the program
-            while (true) {
+            while (!menu.isFinished()) {
                 KeyHit hit = reader.readKeyPress();
                 menu.update(hit);
 

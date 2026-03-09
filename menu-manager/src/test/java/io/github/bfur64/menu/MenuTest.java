@@ -15,7 +15,7 @@ public class MenuTest {
     @Test
     public void testBasicMenuList() {
         MenuManager menu = new MenuManager(List.of(new TextItem("Start"), new TextItem("Fuck")));
-        menu.update(KeyHit.UNKNOWN);
+        menu.update();
 
         assertEquals(4, menu.getDrawList().size());
 

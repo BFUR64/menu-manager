@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class MenuManager {
+    private boolean isFinished = false;
+
     private final List<Draw> draw = new ArrayList<>();
     private final List<Item> menuList;
 
@@ -78,5 +80,9 @@ public class MenuManager {
 
     public List<Draw> getDrawList() {
         return Collections.unmodifiableList(draw);
+    }
+
+    public boolean isFinished() {
+        return isFinished;
     }
 }
