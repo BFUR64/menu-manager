@@ -35,7 +35,6 @@ public class Demo {
             menu.update();
             renderer.render(menu.getDrawList());
 
-            // TODO Investigate if ESCAPE can be used in reading Key Bindings. Useful for escaping the program
             while (!menu.isFinished()) {
                 KeyHit hit = reader.readKeyPress();
                 menu.update(hit);

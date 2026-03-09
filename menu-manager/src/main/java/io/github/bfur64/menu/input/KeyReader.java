@@ -20,6 +20,8 @@ public class KeyReader {
         keyMap.bind(KeyHit.ENTER, "\r");
         keyMap.bind(KeyHit.ENTER, "\n");
 
+        keyMap.bind(KeyHit.ESCAPE, KeyMap.esc());
+
         keyMap.setNomatch(KeyHit.UNKNOWN);
     }
 

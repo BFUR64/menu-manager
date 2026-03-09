@@ -43,6 +43,10 @@ public class MenuManager {
 
     private void drawCursor(KeyHit keyHit) {
         switch (keyHit) {
+            case ESCAPE -> {
+                isFinished = true;
+            }
+
             case UP -> {
                 prevListIndex = listIndex;
 
