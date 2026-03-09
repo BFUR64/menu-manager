@@ -5,6 +5,7 @@ import io.github.bfur64.menu.MenuContext;
 public abstract class Item {
     protected final String label;
     protected final boolean isSelectable;
+    protected boolean exitRequested;
 
     protected Item(String label, boolean isSelectable) {
         this.label = label;
@@ -16,12 +17,9 @@ public abstract class Item {
 
     public String getDisplayName() { return label; }
 
-    public boolean onSelect(MenuContext mc) {
-        if (!isSelectable) {
-            throw new IllegalStateException("Tried to select a non-selectable item: " + label);
-        }
+    public void selectItem(MenuContext mc) {}
 
-        // Default that tells the MenuManager to continue the loop
-        return true;
+    public boolean exitRequested() {
+        return exitRequested;
     }
 }

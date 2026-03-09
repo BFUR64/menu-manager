@@ -80,11 +80,11 @@ public class MenuManager {
                         listIndex + 1
                 );
 
-                // TODO Search for a better way to call if an item requests the menu to finish the loop
+                Item menuItem = menuList.get(listIndex);
 
-                // TODO Change onSelect() to select() without a boolean return
-                // TODO Add exitRequested() method to Item Class
-                if (!menuList.get(listIndex).onSelect(menuContext)) {
+                menuItem.selectItem(menuContext);
+
+                if (menuItem.exitRequested()) {
                     isFinished = true;
                 }
 

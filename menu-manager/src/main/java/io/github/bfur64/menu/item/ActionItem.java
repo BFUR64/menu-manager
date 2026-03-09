@@ -10,8 +10,13 @@ public class ActionItem extends Item {
         this.action = action;
     }
 
+    public ActionItem(String label, Actionable action, boolean exitRequested) {
+        this(label, action);
+        this.exitRequested = true;
+    }
+
     @Override
-    public boolean onSelect(MenuContext menuContext) {
-        return action.run();
+    public void selectItem(MenuContext menuContext) {
+        action.run();
     }
 }

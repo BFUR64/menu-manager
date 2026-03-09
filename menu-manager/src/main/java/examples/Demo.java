@@ -21,8 +21,8 @@ public class Demo {
             terminal.puts(Capability.cursor_invisible, true);
 
             List<Item> items = List.of(
-                new ActionItem("Lol", () -> {return true;} ),
-                new ActionItem("Lol", () -> {return true;} ),
+                new ActionItem("Lol", () -> {} ),
+                new ActionItem("Lol", () -> {}, true ),
                 new TextItem("Start"),
                 new TextItem("Options"),
                 new TextItem("Exit")
