@@ -1,7 +1,5 @@
 package io.github.bfur64.menu.item;
 
-import java.io.IOException;
-
 import io.github.bfur64.menu.MenuContext;
 
 public abstract class Item {
@@ -18,8 +16,7 @@ public abstract class Item {
 
     public String getDisplayName() { return label; }
 
-    public boolean onSelect(MenuContext mc)
-            throws IOException {
+    public boolean onSelect(MenuContext mc) {
         if (!selectable) {
             throw new IllegalStateException("Tried to select a non-selectable item: " + label);
         }

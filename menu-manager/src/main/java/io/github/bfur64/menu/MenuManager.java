@@ -74,7 +74,22 @@ public class MenuManager {
             }
 
             case ENTER -> {
+                MenuContext menuContext =
+                    new MenuContext(
+                        draw,
+                        3,
+                        listIndex + 1
+                );
 
+                // TODO Search for a better way to call if an item requests the menu to finish the loop
+
+                // TODO Change onSelect() to select() without a boolean return
+                // TODO Add exitRequested() method to Item Class
+                if (!menuList.get(listIndex).onSelect(menuContext)) {
+                    isFinished = true;
+                }
+
+                update();
             }
         }
 

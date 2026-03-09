@@ -1,7 +1,5 @@
 package io.github.bfur64.menu.item;
 
-import java.io.IOException;
-
 import io.github.bfur64.menu.MenuContext;
 
 public class ActionItem extends Item {
@@ -13,8 +11,7 @@ public class ActionItem extends Item {
     }
 
     @Override
-    public boolean onSelect(MenuContext menuContext)
-            throws IOException {
+    public boolean onSelect(MenuContext menuContext) {
         return action.run();
     }
 }

@@ -1,8 +1,6 @@
 package io.github.bfur64.menu.item;
 
-import java.io.IOException;
-
 @FunctionalInterface
 public interface Actionable {
-    public boolean run() throws IOException;
+    public boolean run();
 }
