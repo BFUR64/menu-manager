@@ -4,6 +4,7 @@
 package io.github.bfur64.menu;
 
 import io.github.bfur64.menu.input.KeyHit;
+import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.TextItem;
 import org.junit.Test;
 
@@ -13,18 +14,30 @@ import static org.junit.Assert.*;
 
 public class MenuTest {
     @Test
-    public void testBasicMenuList() {
-        MenuManager menu = new MenuManager(List.of(new TextItem("Start"), new TextItem("Fuck")));
+    public void runTests() {
+        List<Item> items = List.of(new TextItem("Start"), new TextItem("Fuck"));
+        MenuManager menu = new MenuManager(items);
         menu.update();
 
-        assertEquals(4, menu.getDrawList().size());
+        checkMenuDraw(items, menu);
 
-        assertEquals("Start", menu.getDrawList().getFirst().out());
-        assertEquals(3, menu.getDrawList().get(0).x());
-        assertEquals(0, menu.getDrawList().get(0).y());
+        // Check Item name and its expected coordinates
+        checkItem(items, menu, 0, 3, 0);
+        checkItem(items, menu, 1, 3, 1);
+    }
 
-        assertEquals("Fuck", menu.getDrawList().get(1).out());
-        assertEquals(3, menu.getDrawList().get(1).x());
-        assertEquals(1, menu.getDrawList().get(1).y());
+    private void checkMenuDraw(List<Item> items, MenuManager menu) {
+        int cursorDraws = 2;
+
+        assertEquals(items.size() + cursorDraws, menu.getDrawList().size());
+    }
+
+    private void checkItem(List<Item> items, MenuManager menu, int index, int x, int y) {
+        // Check if the same String
+        assertEquals(items.get(index).getDisplayName(), menu.getDrawList().get(index).out());
+
+        // Check expected coordinates
+        assertEquals(x, menu.getDrawList().get(index).x());
+        assertEquals(y, menu.getDrawList().get(index).y());
     }
 }
