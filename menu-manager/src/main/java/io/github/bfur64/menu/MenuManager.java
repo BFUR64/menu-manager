@@ -3,7 +3,6 @@ package io.github.bfur64.menu;
 import io.github.bfur64.menu.input.KeyHit;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.render.Draw;
-import io.github.bfur64.menu.render.Style;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,7 +56,7 @@ public class MenuManager {
                         listIndex = menuList.size() - 1;
                     }
                 }
-                while (!menuList.get(listIndex).selectable());
+                while (!menuList.get(listIndex).isSelectable());
             }
 
             case DOWN -> {
@@ -70,7 +69,7 @@ public class MenuManager {
                         listIndex = 0;
                     }
                 }
-                while (!menuList.get(listIndex).selectable());
+                while (!menuList.get(listIndex).isSelectable());
             }
 
             case ENTER -> {
