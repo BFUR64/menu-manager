@@ -16,7 +16,7 @@ import java.util.List;
 public class Demo {
     public static void main(String[] args) {
         try (
-                Terminal terminal = TerminalBuilder.builder().system(true).jna(true).build();
+                Terminal terminal = TerminalBuilder.builder().build();
         ) {
             terminal.puts(Capability.cursor_invisible, true);
 
