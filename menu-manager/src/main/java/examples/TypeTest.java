@@ -40,6 +40,9 @@ public class TypeTest {
             else if (hit.equals(Key.ESCAPE)) {
                 print = "ESCAPE";
             }
+            else if (hit.equals(Key.UNKNOWN)) {
+                print = "UNKNOWN";
+            }
             else if (hit.isCharacter()) {
                 print = String.valueOf(hit.character());
             }
