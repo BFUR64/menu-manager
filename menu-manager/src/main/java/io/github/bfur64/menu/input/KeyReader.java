@@ -22,13 +22,6 @@ public class KeyReader {
 
         keyMap.bind(KeyHit.ESCAPE, KeyMap.esc());
 
-        // 0 -> 9, A -> Z, a -> z
-        for (char c = '0'; c <= 'z'; c++) {
-            if (Character.isLetterOrDigit(c)) {
-                keyMap.bind(KeyHit.CHARACTER, String.valueOf(c));
-            }
-        }
-
         keyMap.setNomatch(KeyHit.UNKNOWN);
     }
 
