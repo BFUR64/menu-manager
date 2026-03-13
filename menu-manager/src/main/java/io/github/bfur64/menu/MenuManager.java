@@ -73,16 +73,17 @@ public class MenuManager {
             }
 
             case ENTER -> {
-                MenuContext menuContext =
-                    new MenuContext(
-                        draw,
-                        3,
-                        listIndex + 1
-                );
+//                MenuContext menuContext =
+//                    new MenuContext(
+//                        draw,
+//                        3,
+//                        listIndex + 1
+//                );
 
                 Item menuItem = menuList.get(listIndex);
 
-                menuItem.selectItem(menuContext);
+//                menuItem.selectItem(menuContext);
+                menuItem.selectItem();
 
                 if (menuItem.exitRequested()) {
                     isFinished = true;

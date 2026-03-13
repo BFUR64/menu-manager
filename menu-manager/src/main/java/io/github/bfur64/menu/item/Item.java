@@ -1,7 +1,5 @@
 package io.github.bfur64.menu.item;
 
-import io.github.bfur64.menu.MenuContext;
-
 public abstract class Item {
     protected final String label;
     protected final boolean isSelectable;
@@ -17,7 +15,7 @@ public abstract class Item {
 
     public String getDisplayName() { return label; }
 
-    public void selectItem(MenuContext mc) {}
+    public void selectItem() {}
 
     public boolean exitRequested() {
         return exitRequested;
