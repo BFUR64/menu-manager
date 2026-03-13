@@ -75,7 +75,7 @@ mavenPublishing {
 }
 
 application {
-    mainClass = "examples.Demo"
+    mainClass = "examples.TypeTest"
 
     applicationDefaultJvmArgs = listOf(
         "--enable-native-access=ALL-UNNAMED"

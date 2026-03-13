@@ -1,6 +1,6 @@
 package examples;
 
-import io.github.bfur64.menu.input.KeyHit;
+import io.github.bfur64.menu.input.Key;
 import io.github.bfur64.menu.input.KeyReader;
 import io.github.bfur64.menu.MenuManager;
 import io.github.bfur64.menu.item.ActionItem;
@@ -36,7 +36,7 @@ public class Demo {
             renderer.render(menu.getDrawList());
 
             while (!menu.isFinished()) {
-                KeyHit hit = reader.readKeyPress();
+                Key hit = reader.readKeyPress();
                 menu.update(hit);
 
                 renderer.render(menu.getDrawList());

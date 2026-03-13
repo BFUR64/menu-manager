@@ -1,6 +1,6 @@
 package io.github.bfur64.menu;
 
-import io.github.bfur64.menu.input.KeyHit;
+import io.github.bfur64.menu.input.Key;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.render.Draw;
 
@@ -21,7 +21,7 @@ public class MenuManager {
         this.menuList = menuList;
     }
 
-    public void update(KeyHit keyHit) {
+    public void update(Key keyHit) {
         draw.clear();
 
         drawMenu();
@@ -29,7 +29,7 @@ public class MenuManager {
     }
 
     public void update() {
-        update(KeyHit.UNKNOWN);
+        update(Key.UNKNOWN);
     }
 
     private void drawMenu() {
@@ -40,39 +40,34 @@ public class MenuManager {
         }
     }
 
-    private void drawCursor(KeyHit keyHit) {
-        switch (keyHit) {
-            case ESCAPE -> {
+    private void drawCursor(Key key) {
+        if (key.equals(Key.ESCAPE)) {
                 isFinished = true;
-            }
+        }
+        else if (key.equals(Key.UP)) {
+            prevListIndex = listIndex;
 
-            case UP -> {
-                prevListIndex = listIndex;
+            do {
+                listIndex--;
 
-                do {
-                    listIndex--;
-
-                    if (listIndex < 0) {
-                        listIndex = menuList.size() - 1;
-                    }
+                if (listIndex < 0) {
+                    listIndex = menuList.size() - 1;
                 }
-                while (!menuList.get(listIndex).isSelectable());
             }
+            while (!menuList.get(listIndex).isSelectable());
+        }
+        else if (key.equals(Key.DOWN)) {
+            prevListIndex = listIndex;
 
-            case DOWN -> {
-                prevListIndex = listIndex;
+            do {
+                listIndex++;
 
-                do {
-                    listIndex++;
-
-                    if (listIndex > menuList.size() - 1) {
-                        listIndex = 0;
-                    }
+                if (listIndex > menuList.size() - 1) {
+                    listIndex = 0;
                 }
-                while (!menuList.get(listIndex).isSelectable());
             }
-
-            case ENTER -> {
+            while (!menuList.get(listIndex).isSelectable());
+        } else if (key.equals(Key.ENTER)) {
 //                MenuContext menuContext =
 //                    new MenuContext(
 //                        draw,
@@ -80,17 +75,16 @@ public class MenuManager {
 //                        listIndex + 1
 //                );
 
-                Item menuItem = menuList.get(listIndex);
+            Item menuItem = menuList.get(listIndex);
 
 //                menuItem.selectItem(menuContext);
-                menuItem.selectItem();
+            menuItem.selectItem();
 
-                if (menuItem.exitRequested()) {
-                    isFinished = true;
-                }
-
-                update();
+            if (menuItem.exitRequested()) {
+                isFinished = true;
             }
+
+            update();
         }
 
         draw.add(new Draw(0, prevListIndex, " "));
