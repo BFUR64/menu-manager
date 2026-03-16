@@ -25,7 +25,7 @@ public class KeyReader {
         // 0 -> 9, A -> Z, a -> z
         for (char c = '0'; c <= 'z'; c++) {
             if (Character.isLetterOrDigit(c)) {
-                keyMap.bind(CharacterKeys.characterKeyHashMap.get(c), String.valueOf(c));
+                keyMap.bind(Key.getKeyFromCharacter(c), String.valueOf(c));
             }
         }
 
