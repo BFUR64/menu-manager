@@ -1,9 +1,5 @@
 package io.github.bfur64.menu.input;
 
-//public enum KeyHit {
-//    UP, DOWN, ENTER, ESCAPE, CHARACTER, UNKNOWN;
-//}
-
 public class Key {
     public static final Key UP = new Key();
     public static final Key DOWN = new Key();
