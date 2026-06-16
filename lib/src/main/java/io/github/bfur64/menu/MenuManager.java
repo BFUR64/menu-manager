@@ -1,5 +1,6 @@
 package io.github.bfur64.menu;
 
+import io.github.bfur64.Versions;
 import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
@@ -172,7 +173,7 @@ public class MenuManager implements InputHandler, ErrorListener {
     }
 
     public static String getVersion() {
-        return Config.VERSION;
+        return Versions.MENU_MANAGER;
     }
 
     @Override
