@@ -6,7 +6,7 @@
  */
 
 group = "io.github.bfur64"
-version = "0.9.0"
+version = project.properties["version"] as String
 
 plugins {
     // Apply the java-library plugin for API and implementation separation.
