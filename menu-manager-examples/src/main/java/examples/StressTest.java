@@ -19,10 +19,10 @@ public class StressTest {
             StressTest test = new StressTest(terminal);
 
             MenuManager menu = new MenuManager(terminal, List.of(
-                    new ActionItem("[ Test 1 ]", test::test1),
-                    new ActionItem("[ Test 2 ]", test::test2),
-                    new ActionItem("[ Test 3 ]", test::test3),
-                    new ActionItem("[ Test 4 ]", test::test4)
+                    new ActionItem("[ Test 1 ]", manager -> test.test1()),
+                    new ActionItem("[ Test 2 ]", manager -> test.test2()),
+                    new ActionItem("[ Test 3 ]", manager -> test.test3()),
+                    new ActionItem("[ Test 4 ]", manager -> test.test4())
             ));
             menu.start();
         }
@@ -48,7 +48,7 @@ public class StressTest {
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
-                new ActionItem("Action!", false),
+                new ActionItem("Action!", manager -> {}),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
@@ -67,7 +67,7 @@ public class StressTest {
 
     private void test3() {
         MenuManager menu = new MenuManager(terminal, List.of(
-                new ActionItem("Action!", false),
+                new ActionItem("Action!", manager -> {}),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
@@ -83,14 +83,14 @@ public class StressTest {
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
-                new ActionItem("Action!", false)
+                new ActionItem("Action!", manager -> {})
         ));
         menu.start();
     }
 
     private void test4() {
         MenuManager menu = new MenuManager(terminal, List.of(
-                new ActionItem("Action!", false),
+                new ActionItem("Action!", manager -> {}),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
@@ -98,7 +98,7 @@ public class StressTest {
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
-                new ActionItem("Action!", false),
+                new ActionItem("Action!", manager -> {}),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
@@ -107,7 +107,7 @@ public class StressTest {
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
                 new StaticText("Text Only"),
-                new ActionItem("Action!", false)
+                new ActionItem("Action!", manager -> {})
         ));
         menu.start();
     }

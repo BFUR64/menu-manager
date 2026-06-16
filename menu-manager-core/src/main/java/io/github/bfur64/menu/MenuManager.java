@@ -62,12 +62,6 @@ public class MenuManager implements InputHandler, ErrorListener {
 
             update(keyStroke);
 
-            if (itemSelected != null &&
-                itemSelected instanceof SelectableItem selectableItem &&
-                selectableItem.shouldExit()
-            ) {
-                exit();
-            }
             // END
 
             long deadline = frameStart + NS_PER_FRAME;
@@ -164,7 +158,7 @@ public class MenuManager implements InputHandler, ErrorListener {
     private void selectItem(Position cursorPosition) {
         if (!(menuList.get(cursorPosition.y()) instanceof SelectableItem selectableItem)) return;
 
-        selectableItem.selectItem();
+        selectableItem.selectItem(this);
         itemSelected = selectableItem;
     }
 

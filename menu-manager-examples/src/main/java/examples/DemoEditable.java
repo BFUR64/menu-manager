@@ -38,11 +38,11 @@ public class DemoEditable {
                 new DynamicText<>("Col: ", terminal::getXSize),
                 new DynamicText<>("Row: ", terminal::getYSize),
                 new LineBreak(),
-                new ActionItem("[ Input Test ]", () -> inputTest(terminal)),
+                new ActionItem("[ Input Test ]", manager -> inputTest(terminal)),
                 new LineBreak(),
                 new KeyInputItem("Key", ": ", Config.keyStrokeProperty),
                 new LineBreak(),
-                new ActionItem("[ Exit ]", true)
+                new ActionItem("[ Exit ]", MenuManager::exit)
             ));
             menu.start();
         }
@@ -65,10 +65,10 @@ public class DemoEditable {
             new InputItem<>("Allowance", " >> ", Config.allowance , "Philippine Pesos"),
             new InputItem<>("NaN", Config.nan, "nan"),
             new LineBreak(),
-            new ActionItem("[ Reset Fields ]", Config::resetFields),
+            new ActionItem("[ Reset Fields ]", manager -> Config.resetFields()),
             new ToggleItem("Value Switch", Config.switchFields),
             new LineBreak(),
-            new ActionItem("[ Return ]", true)
+            new ActionItem("[ Return ]", MenuManager::exit)
         ));
         menu.start();
     }
