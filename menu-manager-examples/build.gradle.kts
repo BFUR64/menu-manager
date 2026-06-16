@@ -5,8 +5,6 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/9.3.1/userguide/building_java_projects.html in the Gradle documentation.
  */
 
-group = "io.github.bfur64"
-
 plugins {
     id("application")
 
