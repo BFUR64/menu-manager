@@ -4,10 +4,7 @@ import io.github.bfur64.Versions;
 import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
-import io.github.bfur64.menu.utils.ErrorEvent;
-import io.github.bfur64.menu.utils.ErrorListener;
-import io.github.bfur64.menu.utils.ErrorObservable;
-import io.github.bfur64.menu.utils.Position;
+import io.github.bfur64.menu.utils.*;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
 import io.github.bfur64.terminal.interfaces.TerminalBackend;
@@ -18,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.locks.LockSupport;
 
 @NullMarked
-public class MenuManager implements InputHandler, ErrorListener {
+public class MenuManager implements InputHandler, ErrorListener, ExitListener {
     private static final KeyStroke UNKNOWN_KEY = new KeyStroke(KeyType.UNKNOWN);
     private static final long NS_PER_FRAME = 1_000_000_000L / 60;
 
@@ -41,6 +38,10 @@ public class MenuManager implements InputHandler, ErrorListener {
             if (item instanceof ErrorObservable observableItem) {
                 observableItem.setErrorListener(this);
             }
+
+            if (item instanceof ExitObservable observable) {
+                observable.setExitListener(this);
+            }
         }
 
         cursor = new MenuCursor(initCursorPosition(), ">");
@@ -62,12 +63,6 @@ public class MenuManager implements InputHandler, ErrorListener {
 
             update(keyStroke);
 
-            if (itemSelected != null &&
-                itemSelected instanceof SelectableItem selectableItem &&
-                selectableItem.shouldExit()
-            ) {
-                exit();
-            }
             // END
 
             long deadline = frameStart + NS_PER_FRAME;
@@ -168,6 +163,7 @@ public class MenuManager implements InputHandler, ErrorListener {
         itemSelected = selectableItem;
     }
 
+    @Override
     public void exit() {
         isRunning = false;
     }
