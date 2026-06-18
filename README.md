@@ -4,7 +4,7 @@
 
 <h1 align="center">Menu Manager</h1>
 
-<h3 align="center">A lightweight, composable menu system for terminal applications</h3>
+<h3 align="center">A lightweight, composable menu system for terminal applications for Java 21+</h3>
 
 <div align="center">
   <img width="612" height="296" alt="" src="https://github.com/user-attachments/assets/82459d5a-0a77-45b0-9c9e-877d924a65a9" />
