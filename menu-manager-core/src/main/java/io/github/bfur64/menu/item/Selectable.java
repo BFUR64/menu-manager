@@ -1,8 +1,8 @@
 package io.github.bfur64.menu.item;
 
-import io.github.bfur64.menu.MenuManager;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public interface Selectable {
-
-    void selectItem(MenuManager manager);
+    void selectItem();
 }

@@ -1,13 +1,11 @@
 package io.github.bfur64.menu.item.input;
 
-import io.github.bfur64.menu.MenuManager;
 import io.github.bfur64.menu.Property;
 import io.github.bfur64.menu.item.SelectableItem;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 public class ToggleItem extends SelectableItem {
-
     private static final String TOGGLE_ON = "■";
     private static final String TOGGLE_OFF = "□";
 
@@ -24,7 +22,7 @@ public class ToggleItem extends SelectableItem {
     }
 
     @Override
-    public void selectItem(MenuManager manager) {
+    public void selectItem() {
         property.set(!property.get());
     }
 }

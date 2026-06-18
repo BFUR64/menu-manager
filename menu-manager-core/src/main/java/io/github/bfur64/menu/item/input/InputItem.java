@@ -1,6 +1,5 @@
 package io.github.bfur64.menu.item.input;
 
-import io.github.bfur64.menu.MenuManager;
 import io.github.bfur64.menu.Property;
 import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.item.SelectableItem;
@@ -14,7 +13,6 @@ import org.jspecify.annotations.Nullable;
 
 @NullMarked
 public class InputItem<T> extends SelectableItem implements InputHandler, ErrorObservable {
-
     private final String separator;
     protected final Property<T> property;
     private final String suffix;
@@ -105,7 +103,7 @@ public class InputItem<T> extends SelectableItem implements InputHandler, ErrorO
     }
 
     @Override
-    public void selectItem(MenuManager manager) {
+    public void selectItem() {
         isFinished = false;
         value = "";
     }
