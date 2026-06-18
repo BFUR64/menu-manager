@@ -62,7 +62,6 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
             }
 
             update(keyStroke);
-
             // END
 
             long deadline = frameStart + NS_PER_FRAME;
