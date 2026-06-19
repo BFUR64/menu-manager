@@ -34,13 +34,31 @@ menu.start();
 
 ## Installation / Running
 
-#### Dependencies
+### Kotline
 
 ```kotlin
 dependencies {
-    implementation("io.github.bfur64:menu-manager:x.x.x")
-    implementation("io.github.bfur64:terminal:x.x.x")
+    implementation("io.github.bfur64:menu-manager:0.9.0")
+    implementation("io.github.bfur64:tetrue-terminal:2.4.3")
 }
+```
+
+### Maven
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>io.github.bfur64</groupId>
+        <artifactId>menu-manager</artifactId>
+        <version>0.9.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.github.bfur64</groupId>
+        <artifactId>tetrue-terminal</artifactId>
+        <version>2.4.3</version>
+    </dependency>
+</dependencies>
 ```
 
 ## Features
