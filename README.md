@@ -4,7 +4,7 @@
 
 <h1 align="center">Menu Manager</h1>
 
-<h3 align="center">A lightweight, composable menu system for terminal applications</h3>
+<h3 align="center">A lightweight, composable menu system for terminal applications for Java 21+</h3>
 
 <div align="center">
   <img width="612" height="296" alt="" src="https://github.com/user-attachments/assets/82459d5a-0a77-45b0-9c9e-877d924a65a9" />
@@ -34,13 +34,31 @@ menu.start();
 
 ## Installation / Running
 
-#### Dependencies
+### Kotline
 
 ```kotlin
 dependencies {
-    implementation("io.github.bfur64:menu-manager:x.x.x")
-    implementation("io.github.bfur64:terminal:x.x.x")
+    implementation("io.github.bfur64:menu-manager:0.9.0")
+    implementation("io.github.bfur64:tetrue-terminal:2.4.3")
 }
+```
+
+### Maven
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>io.github.bfur64</groupId>
+        <artifactId>menu-manager</artifactId>
+        <version>0.9.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.github.bfur64</groupId>
+        <artifactId>tetrue-terminal</artifactId>
+        <version>2.4.3</version>
+    </dependency>
+</dependencies>
 ```
 
 ## Features
@@ -346,32 +364,22 @@ If parsing fails (e.g., user types "abc" for an `Integer` property), the default
 
 ## Requirements
 
-- **Java**: 21 or higher
-- **Terminal**: ANSI escape sequence support required
-
-### Tested Terminals
-
-✅ **Fully Supported:**
-- Windows Terminal (Windows 11)
-- Powershell 7
-- CMD.exe
-- Linux xterm
-- WSL2
-- Termux (Android)
-
-❓ **Untested (likely works):**
-- macOS Terminal, iTerm2
-- Other Linux terminals
-
-**Auto-detection:** The library uses `Terminal.auto()` for either normal or termux mode
+- Java 21 or higher
 
 ## Tech Stack
 
 - **Terminal Abstraction**: [Tetrue Terminal](https://github.com/BFUR64/tetrue-terminal) Lanterna-like abstraction layer for JLine4 and Lanterna
 - **Build Tool**: Gradle 9.3.1
 - **Language**: Pure Java 21+ (no Kotlin, no reflection, no annotations)
-- **Dependencies**: Only `terminal` (user must provide compatible backend)
+- **Dependencies**: User must provide [Tetrue Terminal](https://github.com/BFUR64/tetrue-terminal) `Terminal`
 
 ## Why This Exists
 
 I built Menu Manager while creating a terminal-based Tetris clone, and realized this can be spun-off into its own library. Which I did, and have been promptly updating.
+
+## Contributing
+
+Development takes place on the `dev` branch
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and pull request workflow
+
