@@ -358,3 +358,10 @@ If parsing fails (e.g., user types "abc" for an `Integer` property), the default
 ## Why This Exists
 
 I built Menu Manager while creating a terminal-based Tetris clone, and realized this can be spun-off into its own library. Which I did, and have been promptly updating.
+
+## Contributing
+
+Development takes place on the `dev` branch
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and pull request workflow
+
