@@ -5,9 +5,9 @@ import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
 import io.github.bfur64.menu.utils.*;
+import io.github.bfur64.terminal.Terminal;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
-import io.github.bfur64.terminal.interfaces.TerminalBackend;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -19,7 +19,7 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
     private static final KeyStroke UNKNOWN_KEY = new KeyStroke(KeyType.UNKNOWN);
     private static final long NS_PER_FRAME = 1_000_000_000L / 60;
 
-    private final TerminalBackend terminal;
+    private final Terminal terminal;
     private final MenuCursor cursor;
     private final MenuRenderer renderer;
 
@@ -30,7 +30,7 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
 
     private boolean isRunning = true;
 
-    public MenuManager(TerminalBackend terminal, List<Item> menuList) {
+    public MenuManager(Terminal terminal, List<Item> menuList) {
         this.terminal = terminal;
         this.menuList = menuList;
 
@@ -55,7 +55,7 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
             long frameStart = System.nanoTime();
 
             // START
-            KeyStroke keyStroke = terminal.pollInput();
+            KeyStroke keyStroke = terminal.poll();
 
             if (keyStroke == null) {
                 keyStroke = UNKNOWN_KEY;

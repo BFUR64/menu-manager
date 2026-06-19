@@ -18,8 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.bfur64:menu-manager:0.9.0")
-    implementation("io.github.bfur64:tetrue-terminal:2.4.3")
+    implementation("io.github.bfur64:menu-manager:0.9.1-SNAPSHOT")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

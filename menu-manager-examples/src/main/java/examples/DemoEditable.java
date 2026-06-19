@@ -9,19 +9,18 @@ import io.github.bfur64.menu.item.display.StaticText;
 import io.github.bfur64.menu.item.input.InputItem;
 import io.github.bfur64.menu.item.input.KeyInputItem;
 import io.github.bfur64.menu.item.input.ToggleItem;
-import io.github.bfur64.terminal.BufferedTerminal;
 import io.github.bfur64.terminal.Terminal;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
-import io.github.bfur64.terminal.interfaces.TerminalBackend;
+import io.github.bfur64.terminal.interfaces.TerminalRuntime;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class DemoEditable {
     public static void main(String[] args) {
-        try (TerminalBackend terminal = BufferedTerminal.auto()) {
-            terminal.start();
+        try (TerminalRuntime runtime = Terminal.builder().auto().buffered().build()) {
+            Terminal terminal = runtime.terminal();
 
             MenuManager menu = new MenuManager(terminal, List.of(
                 new LineBreak(),
@@ -30,13 +29,13 @@ public class DemoEditable {
                 new StaticText("| Static Text |"),
                 new LineBreak(),
                 new StaticText(MenuManager.getVersion()),
-                new StaticText(Terminal.getLibraryInfo()),
-                new StaticText(terminal.getTerminalInfo()),
+                new StaticText(terminal.libraryInfo()),
+                new StaticText(terminal.terminalInfo()),
                 new LineBreak(),
                 new StaticText("| Dynamic Text |"),
                 new LineBreak(),
-                new DynamicText<>("Col: ", terminal::getXSize),
-                new DynamicText<>("Row: ", terminal::getYSize),
+                new DynamicText<>("Col: ", terminal::xSize),
+                new DynamicText<>("Row: ", terminal::ySize),
                 new LineBreak(),
                 new ActionItem("[ Input Test ]", () -> inputTest(terminal)),
                 new LineBreak(),
@@ -55,7 +54,7 @@ public class DemoEditable {
         }
     }
 
-    private static void inputTest(TerminalBackend terminal) {
+    private static void inputTest(Terminal terminal) {
         MenuManager menu = new MenuManager(terminal, List.of(
             new LineBreak(),
             new StaticText("<< Input Test >>"),

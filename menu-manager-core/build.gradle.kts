@@ -36,7 +36,7 @@ dependencies {
     implementation("org.jspecify:jspecify:1.0.0")
 
     // Rendering Pipeline
-    api("io.github.bfur64:tetrue-terminal:2.4.3")
+    api("io.github.bfur64:tetrue-terminal:3.0.0")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
