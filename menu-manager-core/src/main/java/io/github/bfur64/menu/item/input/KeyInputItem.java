@@ -1,6 +1,5 @@
 package io.github.bfur64.menu.item.input;
 
-import io.github.bfur64.menu.utils.ErrorEvent;
 import io.github.bfur64.menu.Property;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;

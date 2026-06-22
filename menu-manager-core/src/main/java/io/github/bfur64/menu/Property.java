@@ -1,6 +1,5 @@
 package io.github.bfur64.menu;
 
-import io.github.bfur64.menu.utils.AbstractProperty;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.NullUnmarked;
@@ -14,7 +13,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @NullMarked
-public class Property<T> implements AbstractProperty<T> {
+public class Property<T> {
     private static final String NULL_PARSER_ERROR = "Parser is Null";
     private static final String INVALID_INPUT_ERROR = "Invalid Input";
 
@@ -43,17 +42,14 @@ public class Property<T> implements AbstractProperty<T> {
         this.parser = parser;
     }
 
-    @Override
     public T get() {
         return getter.get();
     }
 
-    @Override
     public void set(T value) {
         setter.accept(value);
     }
 
-    @Override
     public void setFromString(String value) {
         T parsed = parse(value);
 
@@ -64,7 +60,6 @@ public class Property<T> implements AbstractProperty<T> {
         setter.accept(parsed);
     }
 
-    @Override
     public boolean isValid(T value) {
         for (int i = 0; i < validators.size(); i++) {
             if (!validators.get(i).test(value)) {
@@ -77,7 +72,6 @@ public class Property<T> implements AbstractProperty<T> {
         return true;
     }
 
-    @Override
     public boolean isValidFromString(String value) {
         T parsed = parse(value);
 
@@ -89,12 +83,10 @@ public class Property<T> implements AbstractProperty<T> {
         return isValid(parsed);
     }
 
-    @Override
     public @Nullable String getLatestError() {
         return latestError;
     }
 
-    @Override
     public @Nullable T parse(String value) {
         if (parser == null) return null;
 

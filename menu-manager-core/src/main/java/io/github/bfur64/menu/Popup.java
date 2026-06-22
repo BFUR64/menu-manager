@@ -3,21 +3,22 @@ package io.github.bfur64.menu;
 import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.utils.Position;
 import io.github.bfur64.menu.utils.Size;
+import io.github.bfur64.terminal.Terminal;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
-import io.github.bfur64.terminal.interfaces.TerminalBackend;
+import io.github.bfur64.terminal.output.SGR;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 public class Popup implements InputHandler {
-    private final TerminalBackend terminal;
+    private final Terminal terminal;
     private final String text;
     private final Position position;
     private final Size size;
 
     private boolean isFinished;
 
-    public Popup(TerminalBackend terminal, String text) {
+    public Popup(Terminal terminal, String text) {
         this.terminal = terminal;
         this.text = text;
 
@@ -26,7 +27,7 @@ public class Popup implements InputHandler {
         this.size = Size.of(text.length() + padding, fixedHeight);
 
 
-        this.position = Position.of((terminal.getXSize() - (size.x() + 1)) / 2, (terminal.getYSize() - (size.y() + 1)) / 2);
+        this.position = Position.of((terminal.xSize() - (size.x() + 1)) / 2, (terminal.ySize() - (size.y() + 1)) / 2);
     }
 
     public void draw() {
@@ -55,10 +56,9 @@ public class Popup implements InputHandler {
 
         drawCenteredString(position.y() + 2, text);
 
-        terminal.setBackgroundColor(255, 255, 255);
-        terminal.setForegroundColor(0, 0, 0);
+        terminal.onSGR(SGR.REVERSE);
         drawCenteredString(position.y() + 5, "  OK  ");
-        terminal.resetColorAndStyle();
+        terminal.offSGR(SGR.REVERSE);
     }
 
     private void clearBoxContent(int x, int y, int sizeXOffset, int sizeYOffset) {

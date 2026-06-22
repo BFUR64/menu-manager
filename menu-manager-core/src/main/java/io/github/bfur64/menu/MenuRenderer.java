@@ -2,7 +2,8 @@ package io.github.bfur64.menu;
 
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
-import io.github.bfur64.terminal.interfaces.TerminalBackend;
+import io.github.bfur64.terminal.Terminal;
+import io.github.bfur64.terminal.output.SGR;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 @NullMarked
 public class MenuRenderer {
-    private final TerminalBackend terminal;
+    private final Terminal terminal;
     private final List<Item> menuItems;
     private final MenuCursor cursor;
     private final int itemIndent;
@@ -22,7 +23,7 @@ public class MenuRenderer {
 
     private @Nullable Popup popup;
 
-    public MenuRenderer(TerminalBackend terminal, List<Item> menuItems, MenuCursor cursor, int itemIndent) {
+    public MenuRenderer(Terminal terminal, List<Item> menuItems, MenuCursor cursor, int itemIndent) {
         this.terminal = terminal;
         this.menuItems = menuItems;
         this.cursor = cursor;
@@ -32,7 +33,7 @@ public class MenuRenderer {
     }
 
     public void update() {
-        terminal.clearScreen();
+        terminal.clear();
 
         drawMenu();
         drawCursor();
@@ -48,10 +49,9 @@ public class MenuRenderer {
             if (Objects.equals(highlightedItem, item)) {
                 terminal.put(itemIndent, i, item.getDisplayName());
 
-                terminal.setBackgroundColor(255, 255, 255);
-                terminal.setForegroundColor(0, 0, 0);
+                terminal.onSGR(SGR.REVERSE);
                 terminal.put(itemIndent, i, item.getName());
-                terminal.resetColorAndStyle();
+                terminal.offSGR(SGR.REVERSE);
             }
             else {
                 terminal.put(itemIndent, i, menuItems.get(i).getDisplayName());

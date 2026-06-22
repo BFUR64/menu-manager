@@ -1,11 +1,9 @@
 package io.github.bfur64.menu.item.input;
 
+import io.github.bfur64.menu.Property;
 import io.github.bfur64.menu.input.InputHandler;
-import io.github.bfur64.menu.item.Item;
-import io.github.bfur64.menu.item.Selectable;
 import io.github.bfur64.menu.item.SelectableItem;
 import io.github.bfur64.menu.utils.ErrorEvent;
-import io.github.bfur64.menu.Property;
 import io.github.bfur64.menu.utils.ErrorListener;
 import io.github.bfur64.menu.utils.ErrorObservable;
 import io.github.bfur64.terminal.input.KeyStroke;
@@ -50,12 +48,6 @@ public class InputItem<T> extends SelectableItem implements InputHandler, ErrorO
         }
 
         return name + separator + value + " " + suffix;
-    }
-
-    @Override
-    public void selectItem() {
-        isFinished = false;
-        value = "";
     }
 
     @Override
@@ -108,5 +100,11 @@ public class InputItem<T> extends SelectableItem implements InputHandler, ErrorO
     @Override
     public void setErrorListener(ErrorListener errorListener) {
         this.errorListener = errorListener;
+    }
+
+    @Override
+    public void selectItem() {
+        isFinished = false;
+        value = "";
     }
 }

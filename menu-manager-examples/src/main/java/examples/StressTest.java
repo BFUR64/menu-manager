@@ -3,18 +3,17 @@ package examples;
 import io.github.bfur64.menu.MenuManager;
 import io.github.bfur64.menu.item.ActionItem;
 import io.github.bfur64.menu.item.display.StaticText;
-import io.github.bfur64.terminal.BufferedTerminal;
-import io.github.bfur64.terminal.interfaces.TerminalBackend;
+import io.github.bfur64.terminal.Terminal;
+import io.github.bfur64.terminal.interfaces.TerminalRuntime;
 
-import java.io.IOException;
 import java.util.List;
 
 public class StressTest {
-    private final TerminalBackend terminal;
+    private final Terminal terminal;
 
-    public static void main(String[] args) throws IOException {
-        try (TerminalBackend terminal = BufferedTerminal.auto()) {
-            terminal.start();
+    public static void main(String[] args) throws Exception {
+        try (TerminalRuntime runtime = Terminal.builder().auto().build()) {
+            Terminal terminal = runtime.terminal();
 
             StressTest test = new StressTest(terminal);
 
@@ -28,7 +27,7 @@ public class StressTest {
         }
     }
 
-    public StressTest(TerminalBackend terminal) {
+    public StressTest(Terminal terminal) {
         this.terminal = terminal;
     }
 

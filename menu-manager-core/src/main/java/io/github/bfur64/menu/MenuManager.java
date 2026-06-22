@@ -1,15 +1,13 @@
 package io.github.bfur64.menu;
 
+import io.github.bfur64.Versions;
 import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
-import io.github.bfur64.menu.utils.ErrorEvent;
-import io.github.bfur64.menu.utils.ErrorListener;
-import io.github.bfur64.menu.utils.ErrorObservable;
-import io.github.bfur64.menu.utils.Position;
+import io.github.bfur64.menu.utils.*;
+import io.github.bfur64.terminal.Terminal;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
-import io.github.bfur64.terminal.interfaces.TerminalBackend;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -17,11 +15,11 @@ import java.util.List;
 import java.util.concurrent.locks.LockSupport;
 
 @NullMarked
-public class MenuManager implements InputHandler, ErrorListener {
+public class MenuManager implements InputHandler, ErrorListener, ExitListener {
     private static final KeyStroke UNKNOWN_KEY = new KeyStroke(KeyType.UNKNOWN);
     private static final long NS_PER_FRAME = 1_000_000_000L / 60;
 
-    private final TerminalBackend terminal;
+    private final Terminal terminal;
     private final MenuCursor cursor;
     private final MenuRenderer renderer;
 
@@ -32,13 +30,17 @@ public class MenuManager implements InputHandler, ErrorListener {
 
     private boolean isRunning = true;
 
-    public MenuManager(TerminalBackend terminal, List<Item> menuList) {
+    public MenuManager(Terminal terminal, List<Item> menuList) {
         this.terminal = terminal;
         this.menuList = menuList;
 
         for (Item item : menuList) {
             if (item instanceof ErrorObservable observableItem) {
                 observableItem.setErrorListener(this);
+            }
+
+            if (item instanceof ExitObservable observable) {
+                observable.setExitListener(this);
             }
         }
 
@@ -53,20 +55,13 @@ public class MenuManager implements InputHandler, ErrorListener {
             long frameStart = System.nanoTime();
 
             // START
-            KeyStroke keyStroke = terminal.pollInput();
+            KeyStroke keyStroke = terminal.poll();
 
             if (keyStroke == null) {
                 keyStroke = UNKNOWN_KEY;
             }
 
             update(keyStroke);
-
-            if (itemSelected != null &&
-                itemSelected instanceof SelectableItem selectableItem &&
-                selectableItem.shouldExit()
-            ) {
-                exit();
-            }
             // END
 
             long deadline = frameStart + NS_PER_FRAME;
@@ -167,12 +162,13 @@ public class MenuManager implements InputHandler, ErrorListener {
         itemSelected = selectableItem;
     }
 
+    @Override
     public void exit() {
         isRunning = false;
     }
 
     public static String getVersion() {
-        return Config.VERSION;
+        return Versions.MENU_MANAGER;
     }
 
     @Override
