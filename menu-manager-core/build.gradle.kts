@@ -8,6 +8,8 @@
 group = "io.github.bfur64"
 version = project.properties["version"] as String
 
+var tetrueTerminal = project.properties["tetrueTerminal"] as String
+
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
@@ -36,7 +38,7 @@ dependencies {
     implementation("org.jspecify:jspecify:1.0.0")
 
     // Rendering Pipeline
-    api("io.github.bfur64:tetrue-terminal:3.1.0")
+    api("io.github.bfur64:tetrue-terminal:$tetrueTerminal")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
