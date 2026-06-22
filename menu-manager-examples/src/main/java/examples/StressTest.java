@@ -12,7 +12,7 @@ public class StressTest {
     private final Terminal terminal;
 
     public static void main(String[] args) throws Exception {
-        try (TerminalRuntime runtime = Terminal.builder().auto().buffered().build()) {
+        try (TerminalRuntime runtime = Terminal.builder().auto().build()) {
             Terminal terminal = runtime.terminal();
 
             StressTest test = new StressTest(terminal);

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class DemoEditable {
     public static void main(String[] args) {
-        try (TerminalRuntime runtime = Terminal.builder().auto().buffered().build()) {
+        try (TerminalRuntime runtime = Terminal.builder().auto().build()) {
             Terminal terminal = runtime.terminal();
 
             MenuManager menu = new MenuManager(terminal, List.of(
