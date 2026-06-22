@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.bfur64:menu-manager:0.9.1-SNAPSHOT")
+    implementation(project(":menu-manager-core"))
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
