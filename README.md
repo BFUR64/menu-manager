@@ -369,7 +369,7 @@ If parsing fails (e.g., user types "abc" for an `Integer` property), the default
 ## Tech Stack
 
 - **Terminal Abstraction**: [Tetrue Terminal](https://github.com/BFUR64/tetrue-terminal) Lanterna-like abstraction layer for JLine4 and Lanterna
-- **Build Tool**: Gradle 9.3.1
+- **Build Tool**: Gradle 9.7.0
 - **Language**: Pure Java 21+ (no Kotlin, no reflection, no annotations)
 - **Dependencies**: User must provide [Tetrue Terminal](https://github.com/BFUR64/tetrue-terminal) `Terminal`
 
