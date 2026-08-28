@@ -11,13 +11,11 @@ import io.github.bfur64.terminal.interfaces.TerminalRuntime;
 import java.util.List;
 
 public class StressTest {
-    private final Terminal terminal;
-
     public static void main(String[] args) throws Exception {
         try (TerminalRuntime runtime = Terminal.builder().auto().build()) {
             Terminal terminal = runtime.terminal();
 
-            StressTest test = new StressTest(terminal);
+            StressTest test = new StressTest();
 
             MenuManager menu = new MenuManager(terminal, List.of(
                 new ListItem("[ Test 1 ]", test::test1),
@@ -27,10 +25,6 @@ public class StressTest {
             ));
             menu.start();
         }
-    }
-
-    public StressTest(Terminal terminal) {
-        this.terminal = terminal;
     }
 
     private List<Item> test1() {
