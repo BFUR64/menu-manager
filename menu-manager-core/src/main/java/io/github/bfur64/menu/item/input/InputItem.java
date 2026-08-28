@@ -2,6 +2,7 @@ package io.github.bfur64.menu.item.input;
 
 import io.github.bfur64.menu.Property;
 import io.github.bfur64.menu.input.InputHandler;
+import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
 import io.github.bfur64.menu.utils.ErrorEvent;
 import io.github.bfur64.menu.utils.ErrorListener;
@@ -10,6 +11,8 @@ import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 @NullMarked
 public class InputItem<T> extends SelectableItem implements InputHandler, ErrorObservable {
@@ -103,8 +106,10 @@ public class InputItem<T> extends SelectableItem implements InputHandler, ErrorO
     }
 
     @Override
-    public void selectItem() {
+    public @Nullable List<Item> selectItem() {
         isFinished = false;
         value = "";
+
+        return null;
     }
 }

@@ -3,6 +3,7 @@ package examples;
 import io.github.bfur64.menu.MenuManager;
 import io.github.bfur64.menu.Property;
 import io.github.bfur64.menu.item.ActionItem;
+import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.display.DynamicText;
 import io.github.bfur64.menu.item.display.LineBreak;
 import io.github.bfur64.menu.item.display.StaticText;
@@ -37,7 +38,7 @@ public class DemoEditable {
                 new DynamicText<>("Col: ", terminal::xSize),
                 new DynamicText<>("Row: ", terminal::ySize),
                 new LineBreak(),
-                new ActionItem("[ Input Test ]", () -> inputTest(terminal)),
+                new ActionItem("[ Input Test ]", DemoEditable::inputTest),
                 new LineBreak(),
                 new KeyInputItem("Key", ": ", Config.keyStrokeProperty),
                 new LineBreak(),
@@ -46,16 +47,16 @@ public class DemoEditable {
             menu.start();
         }
         catch (Throwable e) {
-            System.out.println("A Throwable got caught in MenuManager!");
-            System.out.println(e.getLocalizedMessage() + " : " + Arrays.toString(e.getStackTrace()));
+            System.err.println("A Throwable got caught in MenuManager!");
+            System.err.println(e.getLocalizedMessage() + " : " + Arrays.toString(e.getStackTrace()));
         }
         finally {
             System.exit(0);
         }
     }
 
-    private static void inputTest(Terminal terminal) {
-        MenuManager menu = new MenuManager(terminal, List.of(
+    private static List<Item> inputTest() {
+        return List.of(
             new LineBreak(),
             new StaticText("<< Input Test >>"),
             new LineBreak(),
@@ -68,8 +69,7 @@ public class DemoEditable {
             new ToggleItem("Value Switch", Config.switchFields),
             new LineBreak(),
             new ActionItem("[ Return ]", true)
-        ));
-        menu.start();
+        );
     }
 
     private static class Config {

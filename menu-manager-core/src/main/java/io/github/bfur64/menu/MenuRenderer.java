@@ -13,7 +13,7 @@ import java.util.Objects;
 @NullMarked
 public class MenuRenderer {
     private final Terminal terminal;
-    private final List<Item> menuItems;
+    private List<Item> menuItems;
     private final MenuCursor cursor;
     private final int itemIndent;
 
@@ -40,6 +40,10 @@ public class MenuRenderer {
         drawPopup();
 
         terminal.flush();
+    }
+
+    public void replaceItems(List<Item> menuItems) {
+        this.menuItems = menuItems;
     }
 
     private void drawMenu() {

@@ -11,6 +11,7 @@ import io.github.bfur64.terminal.input.KeyType;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.LockSupport;
 
@@ -23,7 +24,8 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
     private final MenuCursor cursor;
     private final MenuRenderer renderer;
 
-    private final List<Item> menuList;
+    private final List<List<Item>> menuStack = new ArrayList<>();
+    private List<Item> currentList;
 
     private @Nullable Item itemSelected;
     private @Nullable Popup popup;
@@ -32,17 +34,10 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
 
     public MenuManager(Terminal terminal, List<Item> menuList) {
         this.terminal = terminal;
-        this.menuList = menuList;
+        this.menuStack.addLast(menuList);
+        this.currentList = menuList;
 
-        for (Item item : menuList) {
-            if (item instanceof ErrorObservable observableItem) {
-                observableItem.setErrorListener(this);
-            }
-
-            if (item instanceof ExitObservable observable) {
-                observable.setExitListener(this);
-            }
-        }
+        initList(menuList);
 
         cursor = new MenuCursor(initCursorPosition(), ">");
 
@@ -74,6 +69,18 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
         }
     }
 
+    private void initList(List<Item> menuList) {
+        for (Item item : menuList) {
+            if (item instanceof ErrorObservable observableItem) {
+                observableItem.setErrorListener(this);
+            }
+
+            if (item instanceof ExitObservable observable) {
+                observable.setExitListener(this);
+            }
+        }
+    }
+
     private void update(KeyStroke keyStroke) {
         if (itemSelected instanceof InputHandler inputItem && !inputItem.isFinished()) {
             inputItem.handle(keyStroke);
@@ -101,7 +108,8 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
     private void syncHighlightedItem() {
         if (itemSelected instanceof InputHandler inputItem && !inputItem.isFinished()) {
             renderer.setHighlightedItem(itemSelected);
-        } else {
+        }
+        else {
             renderer.setHighlightedItem(null);
         }
     }
@@ -126,8 +134,8 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
     private Position initCursorPosition() {
         final int cursorX = 1;
 
-        for (int itemIndex = 0; itemIndex < menuList.size(); itemIndex++) {
-            if (menuList.get(itemIndex) instanceof SelectableItem) {
+        for (int itemIndex = 0; itemIndex < currentList.size(); itemIndex++) {
+            if (currentList.get(itemIndex) instanceof SelectableItem) {
                 return Position.of(cursorX, itemIndex);
             }
         }
@@ -136,7 +144,7 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
     }
 
     private void moveCursor(int cursorMovement) {
-        if (menuList.isEmpty()) return;
+        if (currentList.isEmpty()) return;
 
         int x = cursor.getPosition().x();
         int y = cursor.getPosition().y();
@@ -144,27 +152,45 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
         do {
             y += cursorMovement;
 
-            if (y < 0) y = menuList.size() - 1;
+            if (y < 0) y = currentList.size() - 1;
 
-            if (y > menuList.size() - 1) y = 0;
+            if (y > currentList.size() - 1) y = 0;
 
             if (y == cursor.getPosition().y()) return;
         }
-        while (!(menuList.get(y) instanceof SelectableItem));
+        while (!(currentList.get(y) instanceof SelectableItem));
 
         cursor.setPosition(Position.of(x, y));
     }
 
     private void selectItem(Position cursorPosition) {
-        if (!(menuList.get(cursorPosition.y()) instanceof SelectableItem selectableItem)) return;
+        if (!(currentList.get(cursorPosition.y()) instanceof SelectableItem selectableItem)) return;
 
-        selectableItem.selectItem();
+        List<Item> itemList = selectableItem.selectItem();
+
+        if (itemList != null) {
+            menuStack.addLast(itemList);
+            currentList = itemList;
+            renderer.replaceItems(itemList);
+            cursor.setPosition(initCursorPosition());
+            initList(itemList);
+            return;
+        }
+
         itemSelected = selectableItem;
     }
 
     @Override
     public void exit() {
-        isRunning = false;
+        if (menuStack.size() == 1) {
+            isRunning = false;
+            return;
+        }
+
+        menuStack.removeLast();
+        currentList = menuStack.getLast();
+        renderer.replaceItems(currentList);
+        cursor.setPosition(initCursorPosition());
     }
 
     public static String getVersion() {

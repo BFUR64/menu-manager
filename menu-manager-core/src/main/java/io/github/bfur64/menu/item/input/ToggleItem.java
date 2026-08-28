@@ -1,8 +1,12 @@
 package io.github.bfur64.menu.item.input;
 
 import io.github.bfur64.menu.Property;
+import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 @NullMarked
 public class ToggleItem extends SelectableItem {
@@ -22,7 +26,9 @@ public class ToggleItem extends SelectableItem {
     }
 
     @Override
-    public void selectItem() {
+    public @Nullable List<Item> selectItem() {
         property.set(!property.get());
+
+        return null;
     }
 }
