@@ -9,7 +9,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 @NullMarked
-public class ToggleItem extends SelectableItem {
+public final class ToggleItem extends SelectableItem {
     private static final String TOGGLE_ON = "■";
     private static final String TOGGLE_OFF = "□";
 

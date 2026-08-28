@@ -9,7 +9,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 @NullMarked
-public class ActionItem extends SelectableItem implements EventBusAware {
+public final class ActionItem extends SelectableItem implements EventBusAware {
     private final Runnable action;
     private final boolean exitAfter;
 

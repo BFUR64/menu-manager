@@ -6,6 +6,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 @NullMarked
+@FunctionalInterface
 public interface Selectable {
     @Nullable List<Item> selectItem();
 }
