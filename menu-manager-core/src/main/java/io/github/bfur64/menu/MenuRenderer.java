@@ -4,6 +4,7 @@ import io.github.bfur64.menu.event.*;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.terminal.Terminal;
 import io.github.bfur64.terminal.output.SGR;
+import io.github.bfur64.terminal.output.Style;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -56,9 +57,7 @@ public final class MenuRenderer {
             if (Objects.equals(itemSelected, item)) {
                 terminal.put(itemIndent, i, item.getDisplayName());
 
-                terminal.onSGR(SGR.REVERSE);
-                terminal.put(itemIndent, i, item.getName());
-                terminal.offSGR(SGR.REVERSE);
+                terminal.put(itemIndent, i, item.getName(), Style.DEFAULT.sgr(SGR.REVERSE));
             }
             else {
                 terminal.put(itemIndent, i, item.getDisplayName());
