@@ -15,7 +15,11 @@ import java.util.concurrent.TimeUnit;
 
 @NullMarked
 public final class ActionItem extends SelectableItem implements EventBusAware {
-    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread thread = new Thread(r, "action-item-scheduler");
+        thread.setDaemon(true);
+        return thread;
+    });
 
     private final Runnable action;
     private final boolean exitAfter;
@@ -53,7 +57,6 @@ public final class ActionItem extends SelectableItem implements EventBusAware {
                 if (event != null) {
                     event.publish(new ItemDeselectEvent());
                 }
-                scheduler.shutdown();
             },
             100,
             TimeUnit.MILLISECONDS
