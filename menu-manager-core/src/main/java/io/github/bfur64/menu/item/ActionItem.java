@@ -33,12 +33,12 @@ public class ActionItem extends SelectableItem implements EventBusAware {
     public @Nullable List<Item> selectItem() {
         action.run();
 
-       if (exitAfter && event != null) {
-           event.publish(new MenuExitEvent());
-           return null;
-       }
+        if (exitAfter && event != null) {
+            event.publish(new MenuExitEvent());
+            return null;
+        }
 
-       return null;
+        return null;
     }
 
     @Override
