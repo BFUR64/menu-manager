@@ -58,7 +58,7 @@ public class MenuRenderer {
                 terminal.offSGR(SGR.REVERSE);
             }
             else {
-                terminal.put(itemIndent, i, menuItems.get(i).getDisplayName());
+                terminal.put(itemIndent, i, item.getDisplayName());
             }
         }
     }
