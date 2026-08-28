@@ -53,6 +53,7 @@ public final class ActionItem extends SelectableItem implements EventBusAware {
                 if (event != null) {
                     event.publish(new ItemDeselectEvent());
                 }
+                scheduler.shutdown();
             },
             100,
             TimeUnit.MILLISECONDS
