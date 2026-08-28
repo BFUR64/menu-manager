@@ -82,7 +82,7 @@ public final class PopupManager implements InputHandler {
 
     @Override
     public void handle(KeyStroke keyStroke) {
-        if (keyStroke.keyType() == KeyType.ENTER) {
+        if (keyStroke.keyType() == KeyType.ENTER || keyStroke.keyType() == KeyType.ESCAPE) {
             event.publish(new PopupChangeEvent(null));
         }
     }
