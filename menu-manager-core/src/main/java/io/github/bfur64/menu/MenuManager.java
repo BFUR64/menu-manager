@@ -118,16 +118,17 @@ public final class MenuManager implements InputHandler {
 
     private void selectItem() {
         if (cursorPosition < 0 || itemList.isEmpty()) return;
-        if (!(this.itemList.get(cursorPosition) instanceof SelectableItem selectableItem)) return;
 
-        List<Item> itemList = selectableItem.selectItem();
+        if (this.itemList.get(cursorPosition) instanceof SelectableItem selectableItem) {
+            List<Item> itemList = selectableItem.selectItem();
 
-        if (itemList != null) {
-            itemStack.addToStack(itemList);
-            return;
+            if (itemList != null) {
+                itemStack.addToStack(itemList);
+                return;
+            }
+
+            event.publish(new ItemSelectChangeEvent(selectableItem));
         }
-
-        event.publish(new ItemSelectChangeEvent(selectableItem));
     }
 
     public static String getVersion() {
