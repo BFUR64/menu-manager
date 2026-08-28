@@ -17,6 +17,11 @@ public final class ItemStack {
         this.event = event;
 
         event.subscribe(MenuExitEvent.class, e -> removeFromStack());
+        event.subscribe(AddToStackRequest.class, e -> {
+            if (e.itemList() != null) {
+                addToStack(e.itemList());
+            }
+        });
     }
 
     public void addToStack(List<Item> itemList) {

@@ -6,7 +6,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 @NullMarked
-public final class ListItem extends SelectableItem {
+public final class ListItem extends ButtonItem {
     private final RunnableAction action;
 
     public ListItem(String name, RunnableAction action) {
@@ -15,7 +15,7 @@ public final class ListItem extends SelectableItem {
     }
 
     @Override
-    public @Nullable List<Item> selectItem() {
+    public @Nullable List<Item> runSelected() {
         return action.run();
     }
 }

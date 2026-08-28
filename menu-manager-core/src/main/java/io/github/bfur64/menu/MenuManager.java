@@ -22,7 +22,6 @@ public final class MenuManager implements InputHandler {
 
     private final Terminal terminal;
 
-    private final ItemStack itemStack;
     private final MenuCursor menuCursor;
     private final MenuRenderer menuRenderer;
 
@@ -40,7 +39,7 @@ public final class MenuManager implements InputHandler {
     public MenuManager(Terminal terminal, List<Item> itemList) {
         this.terminal = terminal;
 
-        this.itemStack = new ItemStack(event);
+        ItemStack itemStack = new ItemStack(event);
         this.menuCursor = new MenuCursor(event);
         this.menuRenderer = new MenuRenderer(terminal, event);
 
@@ -121,11 +120,7 @@ public final class MenuManager implements InputHandler {
         if (cursorPosition < 0 || itemList.isEmpty()) return;
 
         if (this.itemList.get(cursorPosition) instanceof SelectableItem selectableItem) {
-            List<Item> itemList = selectableItem.selectItem();
-
-            if (itemList != null) {
-                itemStack.addToStack(itemList);
-            }
+            selectableItem.selectItem();
         }
     }
 

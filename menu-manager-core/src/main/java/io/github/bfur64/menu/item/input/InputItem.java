@@ -6,15 +6,12 @@ import io.github.bfur64.menu.Property;
 import io.github.bfur64.menu.event.ItemDeselectEvent;
 import io.github.bfur64.menu.event.ItemSelectEvent;
 import io.github.bfur64.menu.input.InputHandler;
-import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
 import io.github.bfur64.menu.event.ErrorEvent;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-
-import java.util.List;
 
 @NullMarked
 public class InputItem<T> extends SelectableItem implements InputHandler, EventBusAware {
@@ -112,14 +109,12 @@ public class InputItem<T> extends SelectableItem implements InputHandler, EventB
     }
 
     @Override
-    public @Nullable List<Item> selectItem() {
+    public void selectItem() {
         if (event != null) {
             event.publish(new ItemSelectEvent(this));
         }
 
         isFinished = false;
         value = "";
-
-        return null;
     }
 }
