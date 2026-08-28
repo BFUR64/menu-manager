@@ -2,7 +2,8 @@ package io.github.bfur64.menu.item;
 
 import io.github.bfur64.menu.Event;
 import io.github.bfur64.menu.event.EventBusAware;
-import io.github.bfur64.menu.event.ItemSelectChangeEvent;
+import io.github.bfur64.menu.event.ItemDeselectEvent;
+import io.github.bfur64.menu.event.ItemSelectEvent;
 import io.github.bfur64.menu.event.MenuExitEvent;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -38,7 +39,7 @@ public final class ActionItem extends SelectableItem implements EventBusAware {
     @Override
     public @Nullable List<Item> selectItem() {
         if (event != null) {
-            event.publish(new ItemSelectChangeEvent(this));
+            event.publish(new ItemSelectEvent(this));
         }
 
         action.run();
@@ -50,7 +51,7 @@ public final class ActionItem extends SelectableItem implements EventBusAware {
         scheduler.schedule(
             () -> {
                 if (event != null) {
-                    event.publish(new ItemSelectChangeEvent(null));
+                    event.publish(new ItemDeselectEvent());
                 }
             },
             100,

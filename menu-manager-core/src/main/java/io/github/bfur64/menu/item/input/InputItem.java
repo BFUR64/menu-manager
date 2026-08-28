@@ -3,7 +3,8 @@ package io.github.bfur64.menu.item.input;
 import io.github.bfur64.menu.Event;
 import io.github.bfur64.menu.event.EventBusAware;
 import io.github.bfur64.menu.Property;
-import io.github.bfur64.menu.event.ItemSelectChangeEvent;
+import io.github.bfur64.menu.event.ItemDeselectEvent;
+import io.github.bfur64.menu.event.ItemSelectEvent;
 import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
@@ -99,7 +100,7 @@ public class InputItem<T> extends SelectableItem implements InputHandler, EventB
 
     protected void setFinished() {
         if (event != null) {
-            event.publish(new ItemSelectChangeEvent(null));
+            event.publish(new ItemDeselectEvent());
         }
 
         isFinished = true;
@@ -113,7 +114,7 @@ public class InputItem<T> extends SelectableItem implements InputHandler, EventB
     @Override
     public @Nullable List<Item> selectItem() {
         if (event != null) {
-            event.publish(new ItemSelectChangeEvent(this));
+            event.publish(new ItemSelectEvent(this));
         }
 
         isFinished = false;

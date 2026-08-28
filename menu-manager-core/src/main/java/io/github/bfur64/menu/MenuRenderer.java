@@ -28,7 +28,8 @@ public final class MenuRenderer {
         event.subscribe(MenuEnterEvent.class, e -> itemList = e.itemList());
         event.subscribe(MenuReturnEvent.class, e -> itemList = e.itemList());
 
-        event.subscribe(ItemSelectChangeEvent.class, e -> itemSelected = e.itemSelected());
+        event.subscribe(ItemSelectEvent.class, e -> itemSelected = e.itemSelected());
+        event.subscribe(ItemDeselectEvent.class, e -> itemSelected = null);
 
         event.subscribe(CursorChangeEvent.class, e -> cursorPosition = e.cursorPosition());
 
