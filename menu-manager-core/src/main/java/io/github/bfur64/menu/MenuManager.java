@@ -3,6 +3,7 @@ package io.github.bfur64.menu;
 import io.github.bfur64.Versions;
 import io.github.bfur64.menu.event.*;
 import io.github.bfur64.menu.input.InputHandler;
+import io.github.bfur64.menu.item.ButtonItem;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
 import io.github.bfur64.terminal.Terminal;
@@ -12,6 +13,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.LockSupport;
 
 @NullMarked
@@ -30,7 +32,9 @@ public final class MenuManager implements InputHandler {
     private boolean isRunning = true;
 
     private List<Item> itemList = List.of();
+
     private @Nullable Item itemSelected = null;
+    private final AtomicBoolean itemReady = new AtomicBoolean(false);
 
     private @Nullable PopupManager popup;
 
@@ -56,6 +60,8 @@ public final class MenuManager implements InputHandler {
         event.subscribe(PopupChangeEvent.class, e -> popup = e.popup());
 
         event.subscribe(ExitEvent.class, e -> isRunning = false);
+
+        event.subscribe(ItemActionReadyEvent.class, e -> itemReady.set(true));
 
         itemStack.addToStack(itemList);
     }
@@ -98,6 +104,15 @@ public final class MenuManager implements InputHandler {
             }
             else {
                 handle(keyStroke);
+            }
+        }
+
+        if (itemReady.compareAndSet(true, false)) {
+            if (itemSelected instanceof ButtonItem buttonItem) {
+                List<Item> itemList = buttonItem.runSelected();
+
+                event.publish(new AddToStackRequest(itemList));
+                event.publish(new ItemDeselectEvent());
             }
         }
 

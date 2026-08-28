@@ -1,10 +1,7 @@
 package io.github.bfur64.menu.item;
 
 import io.github.bfur64.menu.Event;
-import io.github.bfur64.menu.event.AddToStackRequest;
-import io.github.bfur64.menu.event.EventBusAware;
-import io.github.bfur64.menu.event.ItemDeselectEvent;
-import io.github.bfur64.menu.event.ItemSelectEvent;
+import io.github.bfur64.menu.event.*;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -36,9 +33,7 @@ public class ButtonItem extends SelectableItem implements EventBusAware {
         scheduler.schedule(
             () -> {
                 if (event != null) {
-                    List<Item> result = runSelected();
-                    event.publish(new ItemDeselectEvent());
-                    event.publish(new AddToStackRequest(result));
+                    event.publish(new ItemActionReadyEvent());
                 }
             },
             50,
@@ -46,7 +41,7 @@ public class ButtonItem extends SelectableItem implements EventBusAware {
         );
     }
 
-    protected @Nullable List<Item> runSelected() {
+    public @Nullable List<Item> runSelected() {
         return null;
     }
 
