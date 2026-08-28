@@ -124,10 +124,7 @@ public final class MenuManager implements InputHandler {
 
             if (itemList != null) {
                 itemStack.addToStack(itemList);
-                return;
             }
-
-            event.publish(new ItemSelectChangeEvent(selectableItem));
         }
     }
 

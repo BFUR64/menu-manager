@@ -112,6 +112,10 @@ public class InputItem<T> extends SelectableItem implements InputHandler, EventB
 
     @Override
     public @Nullable List<Item> selectItem() {
+        if (event != null) {
+            event.publish(new ItemSelectChangeEvent(this));
+        }
+
         isFinished = false;
         value = "";
 
