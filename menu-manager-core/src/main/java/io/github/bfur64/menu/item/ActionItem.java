@@ -35,7 +35,6 @@ public class ActionItem extends SelectableItem implements EventBusAware {
 
         if (exitAfter && event != null) {
             event.publish(new MenuExitEvent());
-            return null;
         }
 
         return null;
