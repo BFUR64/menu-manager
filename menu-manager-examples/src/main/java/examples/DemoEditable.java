@@ -4,6 +4,7 @@ import io.github.bfur64.menu.MenuManager;
 import io.github.bfur64.menu.Property;
 import io.github.bfur64.menu.item.ActionItem;
 import io.github.bfur64.menu.item.Item;
+import io.github.bfur64.menu.item.ListItem;
 import io.github.bfur64.menu.item.display.DynamicText;
 import io.github.bfur64.menu.item.display.LineBreak;
 import io.github.bfur64.menu.item.display.StaticText;
@@ -38,7 +39,7 @@ public class DemoEditable {
                 new DynamicText<>("Col: ", terminal::xSize),
                 new DynamicText<>("Row: ", terminal::ySize),
                 new LineBreak(),
-                new ActionItem("[ Input Test ]", DemoEditable::inputTest),
+                new ListItem("[ Input Test ]", DemoEditable::inputTest),
                 new LineBreak(),
                 new KeyInputItem("Key", ": ", Config.keyStrokeProperty),
                 new LineBreak(),

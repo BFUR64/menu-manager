@@ -2,6 +2,8 @@ package examples;
 
 import io.github.bfur64.menu.MenuManager;
 import io.github.bfur64.menu.item.ActionItem;
+import io.github.bfur64.menu.item.Item;
+import io.github.bfur64.menu.item.ListItem;
 import io.github.bfur64.menu.item.display.StaticText;
 import io.github.bfur64.terminal.Terminal;
 import io.github.bfur64.terminal.interfaces.TerminalRuntime;
@@ -18,10 +20,10 @@ public class StressTest {
             StressTest test = new StressTest(terminal);
 
             MenuManager menu = new MenuManager(terminal, List.of(
-                    new ActionItem("[ Test 1 ]", test::test1),
-                    new ActionItem("[ Test 2 ]", test::test2),
-                    new ActionItem("[ Test 3 ]", test::test3),
-                    new ActionItem("[ Test 4 ]", test::test4)
+                new ListItem("[ Test 1 ]", test::test1),
+                new ListItem("[ Test 2 ]", test::test2),
+                new ListItem("[ Test 3 ]", test::test3),
+                new ListItem("[ Test 4 ]", test::test4)
             ));
             menu.start();
         }
@@ -31,83 +33,79 @@ public class StressTest {
         this.terminal = terminal;
     }
 
-    private void test1() {
-        MenuManager menu = new MenuManager(terminal, List.of(
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only")
-        ));
-        menu.start();
+    private List<Item> test1() {
+        return List.of(
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only")
+        );
     }
 
-    private void test2() {
-        MenuManager menu = new MenuManager(terminal, List.of(
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new ActionItem("Action!", false),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only")
-        ));
-        menu.start();
+    private List<Item> test2() {
+        return List.of(
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new ActionItem("Action!", false),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only")
+        );
     }
 
-    private void test3() {
-        MenuManager menu = new MenuManager(terminal, List.of(
-                new ActionItem("Action!", false),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new ActionItem("Action!", false)
-        ));
-        menu.start();
+    private List<Item> test3() {
+        return List.of(
+            new ActionItem("Action!", false),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new ActionItem("Action!", false)
+        );
     }
 
-    private void test4() {
-        MenuManager menu = new MenuManager(terminal, List.of(
-                new ActionItem("Action!", false),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new ActionItem("Action!", false),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new StaticText("Text Only"),
-                new ActionItem("Action!", false)
-        ));
-        menu.start();
+    private List<Item> test4() {
+        return List.of(
+            new ActionItem("Action!", false),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new ActionItem("Action!", false),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new StaticText("Text Only"),
+            new ActionItem("Action!", false)
+        );
     }
 }

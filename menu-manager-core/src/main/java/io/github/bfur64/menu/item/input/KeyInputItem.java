@@ -29,6 +29,6 @@ public class KeyInputItem extends InputItem<KeyStroke> {
 
         property.set(keyStroke);
         value = keyStroke.toString();
-        isFinished = true;
+        setFinished();
     }
 }

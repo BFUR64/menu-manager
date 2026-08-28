@@ -21,6 +21,11 @@ public class ToggleItem extends SelectableItem {
     }
 
     @Override
+    public String getName() {
+        return getDisplayName();
+    }
+
+    @Override
     public String getDisplayName() {
         return (property.get() ? TOGGLE_ON : TOGGLE_OFF) + " " + name;
     }

@@ -1,35 +1,29 @@
 package io.github.bfur64.menu.item;
 
-import io.github.bfur64.menu.utils.ExitListener;
-import io.github.bfur64.menu.utils.ExitObservable;
+import io.github.bfur64.menu.Event;
+import io.github.bfur64.menu.event.EventBusAware;
+import io.github.bfur64.menu.event.MenuExitEvent;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
 @NullMarked
-public class ActionItem extends SelectableItem implements ExitObservable {
-    private final RunnableAction action;
+public class ActionItem extends SelectableItem implements EventBusAware {
+    private final Runnable action;
     private final boolean exitAfter;
-    private @Nullable ExitListener exitListener;
+
+    private @Nullable Event event;
 
     public ActionItem(String name, Runnable action) {
-        this(name, () -> {
-            action.run();
-            return null;
-        },
-        false);
-    }
-
-    public ActionItem(String name, RunnableAction action) {
         this(name, action, false);
     }
 
     public ActionItem(String name, boolean exitAfter) {
-        this(name, () -> null, exitAfter);
+        this(name, () -> {}, exitAfter);
     }
 
-    public ActionItem(String name, RunnableAction action, boolean exitAfter) {
+    public ActionItem(String name, Runnable action, boolean exitAfter) {
         super(name);
         this.action = action;
         this.exitAfter = exitAfter;
@@ -37,14 +31,18 @@ public class ActionItem extends SelectableItem implements ExitObservable {
 
     @Override
     public @Nullable List<Item> selectItem() {
-       List<Item> itemList = action.run();
-       if (exitAfter && exitListener != null) exitListener.exit();
+        action.run();
 
-       return itemList;
+       if (exitAfter && event != null) {
+           event.publish(new MenuExitEvent());
+           return null;
+       }
+
+       return null;
     }
 
     @Override
-    public void setExitListener(ExitListener exitListener) {
-        this.exitListener = exitListener;
+    public void setEventBus(Event event) {
+        this.event = event;
     }
 }
