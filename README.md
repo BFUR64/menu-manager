@@ -39,7 +39,7 @@ menu.start();
 ```kotlin
 dependencies {
     implementation("io.github.bfur64:menu-manager:0.9.0")
-    implementation("io.github.bfur64:tetrue-terminal:3.2.2")
+    implementation("io.github.bfur64:tetrue-terminal:3.2.1")
 }
 ```
 
