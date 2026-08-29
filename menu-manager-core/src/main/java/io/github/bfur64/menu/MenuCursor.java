@@ -56,6 +56,8 @@ public final class MenuCursor {
     public void moveCursor(int cursorMovement) {
         if (itemList.isEmpty()) return;
 
+        int oldCursorPosition = cursorPosition;
+
         do {
             cursorPosition += cursorMovement;
 
@@ -66,6 +68,8 @@ public final class MenuCursor {
         while (!(itemList.get(cursorPosition) instanceof SelectableItem));
 
         cursorPositions.set(cursorPositions.size() - 1, cursorPosition);
+
+        if (cursorPosition == oldCursorPosition) return;
 
         event.publish(new CursorChangeEvent(cursorPosition));
     }
