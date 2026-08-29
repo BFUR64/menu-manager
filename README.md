@@ -39,7 +39,7 @@ menu.start();
 ```kotlin
 dependencies {
     implementation("io.github.bfur64:menu-manager:0.9.0")
-    implementation("io.github.bfur64:tetrue-terminal:2.4.3")
+    implementation("io.github.bfur64:tetrue-terminal:3.2.2")
 }
 ```
 
@@ -56,7 +56,7 @@ dependencies {
     <dependency>
         <groupId>io.github.bfur64</groupId>
         <artifactId>tetrue-terminal</artifactId>
-        <version>2.4.3</version>
+        <version>3.2.2</version>
     </dependency>
 </dependencies>
 ```
@@ -196,8 +196,8 @@ class GameConfig {
 
 // 2. Build your menu
 public static void main(String[] args) throws IOException {
-    try (TerminalBackend terminal = BufferedTerminal.auto()) {
-        terminal.start();
+    try (TerminalRuntime terminal = Terminal.builder().auto().build()) {
+        Terminal terminal = runtime.terminal();
 
         MenuManager menu = new MenuManager(terminal, List.of(
             new LineBreak(),
@@ -216,7 +216,7 @@ public static void main(String[] args) throws IOException {
 }
 
 // 3. Use the validated config in your game
-private static void startGame(TerminalBackend terminal) {
+private static void startGame(Terminal terminal) {
     int difficulty = GameConfig.difficulty.get();  // Guaranteed valid
     KeyStroke jump = GameConfig.jumpKey.get();
 
