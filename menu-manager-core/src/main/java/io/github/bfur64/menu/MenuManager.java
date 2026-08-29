@@ -55,6 +55,7 @@ public final class MenuManager implements InputHandler {
         event.subscribe(ItemSelectEvent.class, e -> itemSelected = e.itemSelected());
         event.subscribe(ItemDeselectEvent.class, e -> itemSelected = null);
 
+        event.subscribe(CursorInitializedEvent.class, e -> cursorPosition = e.cursorPosition());
         event.subscribe(CursorChangeEvent.class, e -> cursorPosition = e.cursorPosition());
 
         event.subscribe(PopupChangeEvent.class, e -> popup = e.popup());

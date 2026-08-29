@@ -1,6 +1,7 @@
 package io.github.bfur64.menu;
 
 import io.github.bfur64.menu.event.CursorChangeEvent;
+import io.github.bfur64.menu.event.CursorInitializedEvent;
 import io.github.bfur64.menu.event.MenuEnterEvent;
 import io.github.bfur64.menu.event.MenuReturnEvent;
 import io.github.bfur64.menu.item.Item;
@@ -28,7 +29,7 @@ public final class MenuCursor {
             initCursorPosition();
             cursorPositions.addLast(cursorPosition);
 
-            event.publish(new CursorChangeEvent(cursorPosition));
+            event.publish(new CursorInitializedEvent(cursorPosition));
         });
 
         event.subscribe(MenuReturnEvent.class, e -> {
@@ -37,7 +38,7 @@ public final class MenuCursor {
             cursorPositions.removeLast();
             cursorPosition = cursorPositions.getLast();
 
-            event.publish(new CursorChangeEvent(cursorPosition));
+            event.publish(new CursorInitializedEvent(cursorPosition));
         });
     }
 
