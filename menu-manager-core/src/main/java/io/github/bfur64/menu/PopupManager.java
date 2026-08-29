@@ -1,5 +1,7 @@
 package io.github.bfur64.menu;
 
+import io.github.bfur64.menu.event.ErrorEvent;
+import io.github.bfur64.menu.event.PopupChangeEvent;
 import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.utils.Position;
 import io.github.bfur64.menu.utils.Size;
@@ -10,24 +12,28 @@ import io.github.bfur64.terminal.output.SGR;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public class Popup implements InputHandler {
+public final class PopupManager implements InputHandler {
     private final Terminal terminal;
-    private final String text;
-    private final Position position;
-    private final Size size;
+    private final Event event;
 
-    private boolean isFinished;
+    private String error = "";
+    private Size size = Size.of(-1, -1);
+    private Position position = Position.of(-1, -1);
 
-    public Popup(Terminal terminal, String text) {
+    public PopupManager(Terminal terminal, Event event) {
         this.terminal = terminal;
-        this.text = text;
+        this.event = event;
 
         int padding = 11;
         int fixedHeight = 7;
-        this.size = Size.of(text.length() + padding, fixedHeight);
 
+        event.subscribe(ErrorEvent.class, e -> {
+            error = e.error();
+            this.size = Size.of(error.length() + padding, fixedHeight);
+            this.position = Position.of((terminal.xSize() - (size.x() + 1)) / 2, (terminal.ySize() - (size.y() + 1)) / 2);
 
-        this.position = Position.of((terminal.xSize() - (size.x() + 1)) / 2, (terminal.ySize() - (size.y() + 1)) / 2);
+            event.publish(new PopupChangeEvent(this));
+        });
     }
 
     public void draw() {
@@ -54,7 +60,7 @@ public class Popup implements InputHandler {
 
         clearBoxContent(x, y, sizeXOffset, sizeYOffset);
 
-        drawCenteredString(position.y() + 2, text);
+        drawCenteredString(position.y() + 2, error);
 
         terminal.onSGR(SGR.REVERSE);
         drawCenteredString(position.y() + 5, "  OK  ");
@@ -69,20 +75,15 @@ public class Popup implements InputHandler {
         }
     }
 
-    public void drawCenteredString(int y, String out) {
+    private void drawCenteredString(int y, String out) {
         int innerWidth = size.x() - 1;
         terminal.put(position.x() + 1 + (innerWidth - out.length()) / 2, y, out);
     }
 
     @Override
     public void handle(KeyStroke keyStroke) {
-        if (keyStroke.keyType() == KeyType.ENTER) {
-            isFinished = true;
+        if (keyStroke.keyType() == KeyType.ENTER || keyStroke.keyType() == KeyType.ESCAPE) {
+            event.publish(new PopupChangeEvent(null));
         }
-    }
-
-    @Override
-    public boolean isFinished() {
-        return isFinished;
     }
 }

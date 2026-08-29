@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @NullMarked
-public class Property<T> {
+public final class Property<T> {
     private static final String NULL_PARSER_ERROR = "Parser is Null";
     private static final String INVALID_INPUT_ERROR = "Invalid Input";
 

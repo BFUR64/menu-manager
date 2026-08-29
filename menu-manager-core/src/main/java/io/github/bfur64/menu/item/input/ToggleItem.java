@@ -1,11 +1,15 @@
 package io.github.bfur64.menu.item.input;
 
 import io.github.bfur64.menu.Property;
-import io.github.bfur64.menu.item.SelectableItem;
+import io.github.bfur64.menu.item.ButtonItem;
+import io.github.bfur64.menu.item.Item;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 @NullMarked
-public class ToggleItem extends SelectableItem {
+public final class ToggleItem extends ButtonItem {
     private static final String TOGGLE_ON = "■";
     private static final String TOGGLE_OFF = "□";
 
@@ -17,12 +21,18 @@ public class ToggleItem extends SelectableItem {
     }
 
     @Override
+    public String getName() {
+        return getDisplayName();
+    }
+
+    @Override
     public String getDisplayName() {
         return (property.get() ? TOGGLE_ON : TOGGLE_OFF) + " " + name;
     }
 
     @Override
-    public void selectItem() {
+    public @Nullable List<Item> runSelected() {
         property.set(!property.get());
+        return null;
     }
 }

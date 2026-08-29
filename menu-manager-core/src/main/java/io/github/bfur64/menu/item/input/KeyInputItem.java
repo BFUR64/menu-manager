@@ -6,7 +6,7 @@ import io.github.bfur64.terminal.input.KeyType;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public class KeyInputItem extends InputItem<KeyStroke> {
+public final class KeyInputItem extends InputItem<KeyStroke> {
     public KeyInputItem(String name, Property<KeyStroke> property) {
         super(name, " = ", property);
     }
@@ -29,6 +29,6 @@ public class KeyInputItem extends InputItem<KeyStroke> {
 
         property.set(keyStroke);
         value = keyStroke.toString();
-        isFinished = true;
+        setFinished();
     }
 }

@@ -1,15 +1,15 @@
 package io.github.bfur64.menu.item;
 
-import io.github.bfur64.menu.utils.ExitListener;
-import io.github.bfur64.menu.utils.ExitObservable;
+import io.github.bfur64.menu.event.MenuExitEvent;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
+
 @NullMarked
-public class ActionItem extends SelectableItem implements ExitObservable {
+public final class ActionItem extends ButtonItem {
     private final Runnable action;
     private final boolean exitAfter;
-    private @Nullable ExitListener exitListener;
 
     public ActionItem(String name, Runnable action) {
         this(name, action, false);
@@ -26,13 +26,13 @@ public class ActionItem extends SelectableItem implements ExitObservable {
     }
 
     @Override
-    public void selectItem() {
-       action.run();
-       if (exitAfter && exitListener != null) exitListener.exit();
-    }
+    public @Nullable List<Item> runSelected() {
+        action.run();
 
-    @Override
-    public void setExitListener(ExitListener exitListener) {
-        this.exitListener = exitListener;
+        if (exitAfter && event != null) {
+            event.publish(new MenuExitEvent());
+        }
+
+        return null;
     }
 }

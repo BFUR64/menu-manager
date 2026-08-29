@@ -1,22 +1,25 @@
 package io.github.bfur64.menu.item.input;
 
+import io.github.bfur64.menu.Event;
+import io.github.bfur64.menu.event.EventBusAware;
 import io.github.bfur64.menu.Property;
+import io.github.bfur64.menu.event.ItemDeselectEvent;
+import io.github.bfur64.menu.event.ItemSelectEvent;
 import io.github.bfur64.menu.input.InputHandler;
 import io.github.bfur64.menu.item.SelectableItem;
-import io.github.bfur64.menu.utils.ErrorEvent;
-import io.github.bfur64.menu.utils.ErrorListener;
-import io.github.bfur64.menu.utils.ErrorObservable;
+import io.github.bfur64.menu.event.ErrorEvent;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 @NullMarked
-public class InputItem<T> extends SelectableItem implements InputHandler, ErrorObservable {
+public class InputItem<T> extends SelectableItem implements InputHandler, EventBusAware {
     private final String separator;
     protected final Property<T> property;
     private final String suffix;
-    protected @Nullable ErrorListener errorListener;
+
+    private @Nullable Event event;
 
     protected String value;
     protected boolean isFinished = true;
@@ -57,7 +60,7 @@ public class InputItem<T> extends SelectableItem implements InputHandler, ErrorO
         switch (keyType) {
             case ESCAPE -> {
                 value = property.get().toString();
-                isFinished = true;
+                setFinished();
             }
             case CHARACTER -> value += keyStroke.character();
             case BACKSPACE -> {
@@ -69,41 +72,48 @@ public class InputItem<T> extends SelectableItem implements InputHandler, ErrorO
                 try {
                     if (property.isValidFromString(value)) {
                         property.setFromString(value);
-                        isFinished = true;
+                        setFinished();
                         break;
                     }
 
-                    if (errorListener != null && property.getLatestError() != null) {
-                        errorListener.onError(new ErrorEvent(property.getLatestError()));
+                    if (event != null && property.getLatestError() != null) {
+                        event.publish(new ErrorEvent(property.getLatestError()));
                     }
 
                     value = property.get().toString();
                 }
                 catch (IllegalArgumentException e) {
-                    if (errorListener != null) {
-                        errorListener.onError(new ErrorEvent("Unexpected Input"));
+                    if (event != null) {
+                        event.publish(new ErrorEvent("Unexpected Input"));
                     }
 
                     value = property.get().toString();
                 }
 
-                isFinished = true;
+                setFinished();
             }
         }
     }
 
-    @Override
-    public boolean isFinished() {
-        return isFinished;
+    protected void setFinished() {
+        if (event != null) {
+            event.publish(new ItemDeselectEvent());
+        }
+
+        isFinished = true;
     }
 
     @Override
-    public void setErrorListener(ErrorListener errorListener) {
-        this.errorListener = errorListener;
+    public void setEventBus(Event event) {
+        this.event = event;
     }
 
     @Override
     public void selectItem() {
+        if (event != null) {
+            event.publish(new ItemSelectEvent(this));
+        }
+
         isFinished = false;
         value = "";
     }

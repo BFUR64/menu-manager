@@ -6,5 +6,4 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public interface InputHandler {
     void handle(KeyStroke keyStroke);
-    boolean isFinished();
 }

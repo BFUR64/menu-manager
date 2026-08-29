@@ -1,10 +1,11 @@
 package io.github.bfur64.menu;
 
 import io.github.bfur64.Versions;
+import io.github.bfur64.menu.event.*;
 import io.github.bfur64.menu.input.InputHandler;
+import io.github.bfur64.menu.item.ButtonItem;
 import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
-import io.github.bfur64.menu.utils.*;
 import io.github.bfur64.terminal.Terminal;
 import io.github.bfur64.terminal.input.KeyStroke;
 import io.github.bfur64.terminal.input.KeyType;
@@ -12,98 +13,111 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.LockSupport;
 
 @NullMarked
-public class MenuManager implements InputHandler, ErrorListener, ExitListener {
-    private static final KeyStroke UNKNOWN_KEY = new KeyStroke(KeyType.UNKNOWN);
+public final class MenuManager implements InputHandler {
     private static final long NS_PER_FRAME = 1_000_000_000L / 60;
+    private static final long PARK_THRESHOLD = 2_000_000L;
+    private static final long PARK_MARGIN = 500_000L;
 
     private final Terminal terminal;
-    private final MenuCursor cursor;
-    private final MenuRenderer renderer;
 
-    private final List<Item> menuList;
+    private final MenuCursor menuCursor;
+    private final MenuRenderer menuRenderer;
 
-    private @Nullable Item itemSelected;
-    private @Nullable Popup popup;
+    private final Event event = new Event();
 
     private boolean isRunning = true;
 
-    public MenuManager(Terminal terminal, List<Item> menuList) {
+    private List<Item> itemList = List.of();
+
+    private @Nullable Item itemSelected = null;
+    private final AtomicBoolean itemReady = new AtomicBoolean(false);
+
+    private @Nullable PopupManager popup;
+
+    private int cursorPosition = -1;
+
+    public MenuManager(Terminal terminal, List<Item> itemList) {
         this.terminal = terminal;
-        this.menuList = menuList;
 
-        for (Item item : menuList) {
-            if (item instanceof ErrorObservable observableItem) {
-                observableItem.setErrorListener(this);
-            }
+        ItemStack itemStack = new ItemStack(event);
+        this.menuCursor = new MenuCursor(event);
+        this.menuRenderer = new MenuRenderer(terminal, event);
 
-            if (item instanceof ExitObservable observable) {
-                observable.setExitListener(this);
-            }
-        }
+        new PopupManager(terminal, event);
 
-        cursor = new MenuCursor(initCursorPosition(), ">");
+        event.subscribe(MenuEnterEvent.class, e -> this.itemList = e.itemList());
+        event.subscribe(MenuReturnEvent.class, e -> this.itemList = e.itemList());
 
-        int itemIndent = cursor.getCursorSymbol().length() + 2;
-        renderer = new MenuRenderer(terminal, menuList, cursor, itemIndent);
+        event.subscribe(ItemSelectEvent.class, e -> itemSelected = e.itemSelected());
+        event.subscribe(ItemDeselectEvent.class, e -> itemSelected = null);
+
+        event.subscribe(CursorInitializedEvent.class, e -> cursorPosition = e.cursorPosition());
+        event.subscribe(CursorChangeEvent.class, e -> cursorPosition = e.cursorPosition());
+
+        event.subscribe(PopupChangeEvent.class, e -> popup = e.popup());
+
+        event.subscribe(ExitEvent.class, e -> isRunning = false);
+
+        event.subscribe(ItemActionReadyEvent.class, e -> itemReady.set(true));
+
+        itemStack.addToStack(itemList);
     }
 
     public void start() {
         while (isRunning) {
             long frameStart = System.nanoTime();
 
-            // START
-            KeyStroke keyStroke = terminal.poll();
-
-            if (keyStroke == null) {
-                keyStroke = UNKNOWN_KEY;
-            }
-
-            update(keyStroke);
-            // END
+            update();
 
             long deadline = frameStart + NS_PER_FRAME;
-            long now = System.nanoTime();
 
-            while (now < deadline) {
-                LockSupport.parkNanos(deadline - now);
-                now = System.nanoTime();
+            while (true) {
+                long now = System.nanoTime();
+                long remaining = deadline - now;
+
+                if (remaining <= 0) {
+                    break;
+                }
+
+                if (remaining > PARK_THRESHOLD) {
+                    LockSupport.parkNanos(remaining - PARK_MARGIN);
+                }
+                else {
+                    Thread.onSpinWait();
+                }
             }
         }
     }
 
-    private void update(KeyStroke keyStroke) {
-        if (itemSelected instanceof InputHandler inputItem && !inputItem.isFinished()) {
-            inputItem.handle(keyStroke);
+    private void update() {
+        KeyStroke keyStroke = terminal.poll();
 
-            if (inputItem.isFinished()) {
-                itemSelected = null;
+        if (keyStroke != null) {
+            if (itemSelected instanceof InputHandler inputItem) {
+                inputItem.handle(keyStroke);
+            }
+            else if (popup != null) {
+                popup.handle(keyStroke);
+            }
+            else {
+                handle(keyStroke);
             }
         }
-        else if (popup != null && !popup.isFinished()) {
-            popup.handle(keyStroke);
 
-            if (popup.isFinished()) {
-                popup = null;
-                renderer.setPopup(null);
+        if (itemReady.compareAndSet(true, false)) {
+            if (itemSelected instanceof ButtonItem buttonItem) {
+                List<Item> itemList = buttonItem.runSelected();
+
+                event.publish(new AddToStackRequest(itemList));
+                event.publish(new ItemDeselectEvent());
             }
         }
-        else {
-            handle(keyStroke);
-        }
 
-        syncHighlightedItem();
-        renderer.update();
-    }
-
-    private void syncHighlightedItem() {
-        if (itemSelected instanceof InputHandler inputItem && !inputItem.isFinished()) {
-            renderer.setHighlightedItem(itemSelected);
-        } else {
-            renderer.setHighlightedItem(null);
-        }
+        menuRenderer.render();
     }
 
     @Override
@@ -111,69 +125,31 @@ public class MenuManager implements InputHandler, ErrorListener, ExitListener {
         KeyType keyType = keyStroke.keyType();
 
         switch (keyType) {
-            case ESCAPE -> exit();
-            case ENTER -> selectItem(cursor.getPosition());
-            case ARROW_UP -> moveCursor(-1);
-            case ARROW_DOWN -> moveCursor(1);
-        }
-    }
-
-    @Override
-    public boolean isFinished() {
-        return isRunning;
-    }
-
-    private Position initCursorPosition() {
-        final int cursorX = 1;
-
-        for (int itemIndex = 0; itemIndex < menuList.size(); itemIndex++) {
-            if (menuList.get(itemIndex) instanceof SelectableItem) {
-                return Position.of(cursorX, itemIndex);
+            case ESCAPE, BACKSPACE -> event.publish(new MenuExitEvent());
+            case ENTER -> selectItem();
+            case ARROW_UP -> menuCursor.moveCursor(-1);
+            case ARROW_DOWN -> menuCursor.moveCursor(1);
+            case CHARACTER -> {
+                if (keyStroke.character() != null && keyStroke.character() == ' ') {
+                    selectItem();
+                }
             }
         }
-
-        return Position.of(cursorX, 0);
     }
 
-    private void moveCursor(int cursorMovement) {
-        if (menuList.isEmpty()) return;
+    private void selectItem() {
+        if (cursorPosition < 0 || itemList.isEmpty()) return;
 
-        int x = cursor.getPosition().x();
-        int y = cursor.getPosition().y();
-
-        do {
-            y += cursorMovement;
-
-            if (y < 0) y = menuList.size() - 1;
-
-            if (y > menuList.size() - 1) y = 0;
-
-            if (y == cursor.getPosition().y()) return;
+        if (this.itemList.get(cursorPosition) instanceof SelectableItem selectableItem) {
+            selectableItem.selectItem();
         }
-        while (!(menuList.get(y) instanceof SelectableItem));
-
-        cursor.setPosition(Position.of(x, y));
-    }
-
-    private void selectItem(Position cursorPosition) {
-        if (!(menuList.get(cursorPosition.y()) instanceof SelectableItem selectableItem)) return;
-
-        selectableItem.selectItem();
-        itemSelected = selectableItem;
-    }
-
-    @Override
-    public void exit() {
-        isRunning = false;
     }
 
     public static String getVersion() {
         return Versions.MENU_MANAGER;
     }
 
-    @Override
-    public void onError(ErrorEvent errorEvent) {
-        popup = new Popup(terminal, errorEvent.error());
-        renderer.setPopup(popup);
+    public Event getEvent() {
+        return event;
     }
 }
