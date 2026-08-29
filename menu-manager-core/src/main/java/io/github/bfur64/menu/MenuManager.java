@@ -125,10 +125,15 @@ public final class MenuManager implements InputHandler {
         KeyType keyType = keyStroke.keyType();
 
         switch (keyType) {
-            case ESCAPE -> event.publish(new MenuExitEvent());
+            case ESCAPE, BACKSPACE -> event.publish(new MenuExitEvent());
             case ENTER -> selectItem();
             case ARROW_UP -> menuCursor.moveCursor(-1);
             case ARROW_DOWN -> menuCursor.moveCursor(1);
+            case CHARACTER -> {
+                if (keyStroke.character() != null && keyStroke.character() == ' ') {
+                    selectItem();
+                }
+            }
         }
     }
 
