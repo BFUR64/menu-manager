@@ -8,7 +8,6 @@ import io.github.bfur64.menu.item.Item;
 import io.github.bfur64.menu.item.SelectableItem;
 import io.github.bfur64.terminal.Terminal;
 import io.github.bfur64.terminal.input.KeyStroke;
-import io.github.bfur64.terminal.input.KeyType;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -122,18 +121,17 @@ public final class MenuManager implements InputHandler {
 
     @Override
     public void handle(KeyStroke keyStroke) {
-        KeyType keyType = keyStroke.keyType();
-
-        switch (keyType) {
-            case ESCAPE, BACKSPACE -> event.publish(new MenuExitEvent());
-            case ENTER -> selectItem();
-            case ARROW_UP -> menuCursor.moveCursor(-1);
-            case ARROW_DOWN -> menuCursor.moveCursor(1);
-            case CHARACTER -> {
-                if (keyStroke.character() != null && keyStroke.character() == ' ') {
-                    selectItem();
-                }
-            }
+        if (keyStroke.equals(MenuConfig.menuExitKey.get()) || keyStroke.equals(MenuConfig.menuExitAltKey.get())) {
+            event.publish(new MenuExitEvent());
+        }
+        else if (keyStroke.equals(MenuConfig.menuEnterKey.get()) || keyStroke.equals(MenuConfig.menuEnterAltKey.get())) {
+            selectItem();
+        }
+        else if (keyStroke.equals(MenuConfig.cursorUpKey.get())) {
+            menuCursor.moveCursor(-1);
+        }
+        else if (keyStroke.equals(MenuConfig.cursorDownKey.get())) {
+            menuCursor.moveCursor(1);
         }
     }
 
